@@ -1,0 +1,36 @@
+# TLS is automatic. Point AAYU_DOMAIN's A record at this VPS before starting,
+# or Let's Encrypt cannot issue the certificate.
+
+{$AAYU_DOMAIN} {
+	encode zstd gzip
+
+	# Streaming responses (Nadi's answers) must not be buffered. Caddy sets
+	# X-Forwarded-Proto, which is how the app decides to send HSTS and
+	# upgrade-insecure-requests — do not strip it.
+	reverse_proxy app:3000 {
+		flush_interval -1
+	}
+
+	header {
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+		-Server
+	}
+
+	log {
+		# Health data must never reach a log file; only method, status and timing.
+		format filter {
+			wrap console
+			fields {
+				request>uri delete
+				request>headers delete
+				request>remote_ip ip_mask {
+					ipv4 24
+					ipv6 32
+				}
+			}
+		}
+	}
+}

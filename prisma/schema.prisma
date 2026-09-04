@@ -1,0 +1,306 @@
+// Aayu — data model.
+//
+// Encryption convention: structural columns (ids, kinds, timestamps, status)
+// are plaintext because they are needed for indexing and filtering. Every
+// column holding health content is `Bytes` and stores an AES-256-GCM payload
+// produced by src/lib/crypto.ts. Nothing readable as health data is stored
+// in plaintext anywhere in this schema.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  passphraseHash String
+  kdfSalt        Bytes
+  dekWrappedMaster Bytes
+  dekWrappedPass   Bytes
+
+  totpSecretEnc  Bytes?
+  totpEnabled    Boolean   @default(false)
+  pinHash        String?
+  lockTimeoutSec Int       @default(120)
+
+  failedLogins   Int       @default(0)
+  lockedUntil    DateTime?
+
+  units          String    @default("metric")
+  locale         String    @default("en")
+  consent        Json      @default("{}")
+  consentAt      DateTime?
+  onboardingStep Int       @default(0)
+  onboardedAt    DateTime?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  profile        Profile?
+  sessions       Session[]
+  recoveryCodes  RecoveryCode[]
+  auditEvents    AuditEvent[]
+  observations   Observation[]
+  panels         Panel[]
+  documents      Document[]
+  medications    Medication[]
+  doseEvents     DoseEvent[]
+  conditions     Condition[]
+  allergies      Allergy[]
+  conversations  Conversation[]
+  connections    Connection[]
+  shareLinks     ShareLink[]
+  careGapStates  CareGapState[]
+  dailyReads     DailyRead[]
+}
+
+model Profile {
+  userId    String   @id
+  dataEnc   Bytes
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id           String    @id @default(cuid())
+  userId       String
+  tokenHash    String    @unique
+  deviceLabel  String
+  ipHash       String
+  createdAt    DateTime  @default(now())
+  lastSeenAt   DateTime  @default(now())
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  twoFactorAt  DateTime?
+  trustedUntil DateTime?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt])
+}
+
+model RecoveryCode {
+  id       String    @id @default(cuid())
+  userId   String
+  codeHash String
+  usedAt   DateTime?
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+/// Append-only. Written in the same transaction as the action it records.
+model AuditEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  at        DateTime @default(now())
+  action    String
+  resource  String
+  outcome   String   @default("ok")
+  detailEnc Bytes?
+  device    String?
+  ipHash    String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, at])
+}
+
+/// One row per measured value, whatever its source.
+model Observation {
+  id          String   @id @default(cuid())
+  userId      String
+  kind        String // lab | vital | wearable | nutrition
+  metric      String // canonical metric key, e.g. glucose_fasting
+  unit        String
+  effectiveAt DateTime
+  valueEnc    Bytes // encrypted numeric value
+  noteEnc     Bytes? // encrypted free text (context, comment)
+  refLow      Float?
+  refHigh     Float?
+  refText     String?
+  source      String   @default("manual")
+  sourceRef   String?
+  dedupeKey   String?
+  panelId     String?
+  documentId  String?
+  createdAt   DateTime @default(now())
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  panel Panel? @relation(fields: [panelId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, dedupeKey])
+  @@index([userId, metric, effectiveAt])
+  @@index([userId, kind, effectiveAt])
+}
+
+/// A lab panel groups results that arrived together.
+model Panel {
+  id          String        @id @default(cuid())
+  userId      String
+  nameEnc     Bytes
+  labEnc      Bytes?
+  collectedAt DateTime
+  source      String        @default("manual")
+  documentId  String?
+  createdAt   DateTime      @default(now())
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  results     Observation[]
+
+  @@index([userId, collectedAt])
+}
+
+model Document {
+  id           String    @id @default(cuid())
+  userId       String
+  filenameEnc  Bytes
+  mime         String
+  sizeBytes    Int
+  storageKey   String
+  status       String    @default("uploaded") // uploaded | processing | needs_review | confirmed | failed
+  kind         String    @default("unknown") // lab_report | imaging | discharge | prescription | other
+  pages        Int?
+  textEnc      Bytes?
+  extractionEnc Bytes?
+  errorMessage String?
+  uploadedAt   DateTime  @default(now())
+  processedAt  DateTime?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, uploadedAt])
+}
+
+model Medication {
+  id        String      @id @default(cuid())
+  userId    String
+  dataEnc   Bytes // { name, rxnorm, dose, unit, route, form, schedule[], quantity, notes }
+  active    Boolean     @default(true)
+  startedAt DateTime    @default(now())
+  endedAt   DateTime?
+  createdAt DateTime    @default(now())
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  doses     DoseEvent[]
+
+  @@index([userId, active])
+}
+
+model DoseEvent {
+  id           String     @id @default(cuid())
+  userId       String
+  medicationId String
+  scheduledAt  DateTime
+  takenAt      DateTime?
+  status       String     @default("pending") // pending | taken | missed | skipped
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  medication   Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+
+  @@unique([medicationId, scheduledAt])
+  @@index([userId, scheduledAt])
+}
+
+model Condition {
+  id        String    @id @default(cuid())
+  userId    String
+  dataEnc   Bytes // { name, icd10, note }
+  tag       String // coarse, non-identifying rule key: diabetes_t2, hypertension, ...
+  active    Boolean   @default(true)
+  onsetAt   DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, active])
+}
+
+model Allergy {
+  id        String   @id @default(cuid())
+  userId    String
+  dataEnc   Bytes // { substance, reaction, severity, notedAt }
+  severity  String   @default("unknown")
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  titleEnc  Bytes?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  role           String
+  contentEnc     Bytes
+  citationsEnc   Bytes?
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+model Connection {
+  id         String    @id @default(cuid())
+  userId     String
+  provider   String
+  label      String
+  status     String    @default("connected") // connected | expired | disconnected
+  secretEnc  Bytes?
+  lastSyncAt DateTime?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ShareLink {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  kind      String    @default("visit_prep")
+  payloadEnc Bytes
+  expiresAt DateTime
+  revokedAt DateTime?
+  views     Int       @default(0)
+  lastViewAt DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model CareGapState {
+  id           String    @id @default(cuid())
+  userId       String
+  ruleId       String
+  lastDoneAt   DateTime?
+  snoozedUntil DateTime?
+  dismissed    Boolean   @default(false)
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, ruleId])
+}
+
+model DailyRead {
+  id           String   @id @default(cuid())
+  userId       String
+  forDate      DateTime
+  contentEnc   Bytes
+  citationsEnc Bytes?
+  dataVersion  String
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, forDate])
+}

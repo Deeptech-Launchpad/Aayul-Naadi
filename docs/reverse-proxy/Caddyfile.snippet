@@ -1,0 +1,25 @@
+# Aayu behind an existing Caddy. Append this to /etc/caddy/Caddyfile,
+# then: sudo caddy validate --config /etc/caddy/Caddyfile && sudo systemctl reload caddy
+#
+# Caddy sets Host, X-Forwarded-Proto, X-Forwarded-For and X-Forwarded-Host
+# correctly by default, so there is nothing to configure but the stream flush.
+# Replace health.example.com and 3000 with your domain and AAYU_PORT.
+
+health.example.com {
+	encode zstd gzip
+
+	# flush_interval -1 disables buffering, so Nadi's answers stream through
+	# instead of arriving in one lump at the end.
+	reverse_proxy 127.0.0.1:3000 {
+		flush_interval -1
+	}
+
+	request_body {
+		max_size 30MB
+	}
+
+	header {
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+		-Server
+	}
+}

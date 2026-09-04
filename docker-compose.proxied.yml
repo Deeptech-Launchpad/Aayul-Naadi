@@ -1,0 +1,13 @@
+# Overlay for a server that already runs other sites.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.proxied.yml up -d --build
+#
+# It publishes the app on the loopback interface only, so nothing is exposed to
+# the internet directly and ports 80/443 stay with whatever already owns them.
+# Point your existing reverse proxy at 127.0.0.1:${AAYU_PORT}; snippets for
+# nginx, Caddy and Apache are in docs/reverse-proxy/.
+
+services:
+  app:
+    ports:
+      - "127.0.0.1:${AAYU_PORT:-3000}:3000"

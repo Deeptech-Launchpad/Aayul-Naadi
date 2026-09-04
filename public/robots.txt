@@ -1,0 +1,3 @@
+# A personal health record. Nothing here should be indexed.
+User-agent: *
+Disallow: /

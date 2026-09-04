@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+.data
+docs
+*.log
+.env
+.env.*
+!.env.example
+scripts/smoke.ts

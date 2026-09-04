@@ -1,0 +1,2162 @@
+<title>Aayu Design Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600;700&display=swap">
+
+<style>
+/* ============================================================
+   AAYU — design tokens
+   ============================================================ */
+:root{
+  --paper:#EFF4F1;
+  --surface:#FFFFFF;
+  --surface-2:#E5EDE9;
+  --surface-3:#DAE6E0;
+  --line:#C8D9D1;
+  --line-soft:#DEE9E4;
+
+  --jade:#0F6E5C;
+  --jade-deep:#08483D;
+  --jade-mist:#D8EAE3;
+  --turmeric:#B96F14;
+  --turmeric-mist:#F5E6D0;
+
+  --txt:#0E211C;
+  --txt-2:#4A625A;
+  --txt-3:#7B9189;
+
+  --ok:#2C8B58;
+  --ok-bg:#DDF0E4;
+  --watch:#A9761A;
+  --watch-bg:#F7E9CE;
+  --high:#B03F35;
+  --high-bg:#F7DFDC;
+  --low:#38609F;
+  --low-bg:#DEE7F5;
+
+  --shadow: 0 1px 2px rgba(12,26,23,.06), 0 12px 32px -12px rgba(12,26,23,.18);
+  --shadow-lift: 0 2px 4px rgba(12,26,23,.07), 0 28px 60px -24px rgba(12,26,23,.32);
+
+  --f-display:"Bricolage Grotesque","Bricolage Grotesque Fallback",Georgia,serif;
+  --f-body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#070E0C;
+    --surface:#0E1917;
+    --surface-2:#15231F;
+    --surface-3:#1D2E28;
+    --line:#26382F;
+    --line-soft:#1B2A24;
+
+    --jade:#41C0A3;
+    --jade-deep:#0C4C41;
+    --jade-mist:#102B25;
+    --turmeric:#DCA054;
+    --turmeric-mist:#2E2314;
+
+    --txt:#E3EDE9;
+    --txt-2:#9CB2AA;
+    --txt-3:#6E857D;
+
+    --ok:#4CBE81;   --ok-bg:#102A1D;
+    --watch:#D6A33C; --watch-bg:#2B2211;
+    --high:#E36B60;  --high-bg:#2E1614;
+    --low:#6E96E2;   --low-bg:#141F33;
+
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -12px rgba(0,0,0,.7);
+    --shadow-lift: 0 2px 4px rgba(0,0,0,.5), 0 28px 60px -24px rgba(0,0,0,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#070E0C;
+  --surface:#0E1917;
+  --surface-2:#15231F;
+  --surface-3:#1D2E28;
+  --line:#26382F;
+  --line-soft:#1B2A24;
+
+  --jade:#41C0A3;
+  --jade-deep:#0C4C41;
+  --jade-mist:#102B25;
+  --turmeric:#DCA054;
+  --turmeric-mist:#2E2314;
+
+  --txt:#E3EDE9;
+  --txt-2:#9CB2AA;
+  --txt-3:#6E857D;
+
+  --ok:#4CBE81;   --ok-bg:#102A1D;
+  --watch:#D6A33C; --watch-bg:#2B2211;
+  --high:#E36B60;  --high-bg:#2E1614;
+  --low:#6E96E2;   --low-bg:#141F33;
+
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -12px rgba(0,0,0,.7);
+  --shadow-lift: 0 2px 4px rgba(0,0,0,.5), 0 28px 60px -24px rgba(0,0,0,.85);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--txt);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:700;text-wrap:balance;margin:0;line-height:1.12;letter-spacing:-.02em}
+p{margin:0}
+a{color:var(--jade)}
+:focus-visible{outline:2px solid var(--jade);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- page scaffold ---------- */
+.wrap{max-width:1560px;margin:0 auto;padding:0 clamp(16px,4vw,56px)}
+.prose{max-width:66ch}
+.sec{padding:clamp(48px,7vw,96px) 0;border-top:1px solid var(--line-soft)}
+.sec:first-of-type{border-top:0}
+
+.eyebrow{
+  font-family:var(--f-mono);font-size:11px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--jade);
+  display:flex;align-items:center;gap:10px;margin-bottom:18px;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line);max-width:220px}
+
+.sec h2{font-size:clamp(28px,3.4vw,42px);margin-bottom:14px}
+.sec h3{font-size:20px;margin-bottom:8px}
+.lede{font-size:clamp(16px,1.5vw,19px);color:var(--txt-2);line-height:1.62}
+
+/* ---------- masthead ---------- */
+.mast{
+  padding:clamp(40px,6vw,72px) 0 clamp(36px,5vw,60px);
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:clamp(24px,5vw,72px);align-items:end;
+}
+@media(max-width:900px){.mast{grid-template-columns:1fr;align-items:start}}
+.brandline{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.mark{width:46px;height:46px;flex:none}
+.wordmark{font-family:var(--f-display);font-weight:800;font-size:30px;letter-spacing:-.035em;line-height:1}
+.wordmark span{color:var(--jade)}
+.tagline{
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--txt-3);margin-top:4px;
+}
+.mast h1{font-size:clamp(38px,6vw,74px);letter-spacing:-.035em;line-height:1.02}
+.mast h1 em{font-style:normal;color:var(--jade)}
+.mast .lede{margin-top:20px;max-width:52ch}
+.meta{
+  border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:20px 22px;box-shadow:var(--shadow);
+}
+.meta dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 18px;align-items:baseline}
+.meta dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3)}
+.meta dd{margin:0;font-size:13.5px;color:var(--txt);font-weight:500}
+.meta .stamp{
+  margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+  font-family:var(--f-mono);font-size:11px;color:var(--txt-3);line-height:1.5;
+}
+
+/* ---------- generic bits ---------- */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+
+.panel{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:22px;box-shadow:var(--shadow);
+}
+.panel h3{font-size:17px;margin-bottom:6px}
+.panel p{font-size:14px;color:var(--txt-2);line-height:1.6}
+.panel .kicker{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--txt-3);display:block;margin-bottom:10px;
+}
+
+.tagpill{
+  display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;border:1px solid var(--line);
+  color:var(--txt-2);background:var(--surface-2);
+}
+.tagpill.live{color:var(--ok);background:var(--ok-bg);border-color:transparent}
+.tagpill.sec{color:var(--turmeric);background:var(--turmeric-mist);border-color:transparent}
+
+ul.tick{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:9px}
+ul.tick li{position:relative;padding-left:24px;font-size:14.5px;color:var(--txt-2);line-height:1.55}
+ul.tick li::before{
+  content:"";position:absolute;left:5px;top:9px;width:7px;height:7px;
+  border-radius:2px;background:var(--jade);
+}
+ul.tick li b{color:var(--txt);font-weight:600}
+
+/* ---------- palette ---------- */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:22px}
+.sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.sw .chip{height:82px}
+.sw .lbl{padding:10px 12px 12px}
+.sw .lbl b{display:block;font-size:13px;font-weight:600}
+.sw .lbl code{font-family:var(--f-mono);font-size:11px;color:var(--txt-3)}
+.sw .lbl small{display:block;font-size:11.5px;color:var(--txt-2);margin-top:3px;line-height:1.4}
+
+/* ---------- type specimen ---------- */
+.spec{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:24px;box-shadow:var(--shadow)}
+.spec + .spec{margin-top:14px}
+.spec .role{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--txt-3);display:flex;justify-content:space-between;gap:12px;margin-bottom:14px;
+}
+.spec .sample-display{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,4vw,50px);letter-spacing:-.035em;line-height:1.05}
+.spec .sample-body{font-family:var(--f-body);font-size:17px;line-height:1.62;color:var(--txt-2)}
+.spec .sample-mono{font-family:var(--f-mono);font-size:15px;letter-spacing:.02em;color:var(--txt);font-variant-numeric:tabular-nums}
+.scale{display:flex;flex-wrap:wrap;gap:18px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line-soft)}
+.scale div{font-family:var(--f-mono);font-size:11px;color:var(--txt-3)}
+.scale b{display:block;font-family:var(--f-body);color:var(--txt);font-weight:600;margin-bottom:2px}
+
+/* ---------- flow diagram ---------- */
+.diagram{
+  margin-top:26px;border:1px solid var(--line);border-radius:16px;background:var(--surface);
+  padding:8px;box-shadow:var(--shadow);overflow-x:auto;
+}
+.diagram svg{display:block;min-width:940px;width:100%;height:auto}
+.d-box{fill:var(--surface-2);stroke:var(--line)}
+.d-box-key{fill:var(--jade-mist);stroke:var(--jade)}
+.d-box-sec{fill:var(--turmeric-mist);stroke:var(--turmeric)}
+.d-t{font-family:var(--f-body);font-size:12.5px;font-weight:600;fill:var(--txt)}
+.d-s{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;fill:var(--txt-3)}
+.d-line{stroke:var(--line);stroke-width:1.5;fill:none}
+.d-line-key{stroke:var(--jade);stroke-width:1.75;fill:none}
+.d-lbl{font-family:var(--f-mono);font-size:9.5px;fill:var(--txt-3);letter-spacing:.06em}
+.d-zone{fill:none;stroke:var(--line);stroke-dasharray:4 5}
+.d-zt{font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;fill:var(--txt-3)}
+
+/* ============================================================
+   DEVICE ARTBOARDS
+   ============================================================ */
+.board{
+  margin-top:34px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(316px,1fr));
+  gap:clamp(28px,3.4vw,44px);
+}
+.art{display:flex;flex-direction:column;gap:12px;min-width:0}
+.art > figcaption{display:flex;flex-direction:column;gap:5px}
+.art .code{
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:var(--jade);
+  display:flex;align-items:center;gap:8px;
+}
+.art .code::after{content:"";flex:1;height:1px;background:var(--line)}
+.art .name{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:-.02em}
+.art .note{font-size:13px;color:var(--txt-2);line-height:1.5}
+.art .note b{color:var(--txt);font-weight:600}
+
+.phone{
+  width:316px;max-width:100%;height:646px;flex:none;
+  border-radius:36px;padding:9px;background:var(--txt);
+  box-shadow:var(--shadow-lift);position:relative;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .phone{background:#1E2E29}}
+:root[data-theme="dark"] .phone{background:#1E2E29}
+.screen{
+  width:100%;height:100%;border-radius:28px;overflow:hidden;background:var(--surface);
+  display:flex;flex-direction:column;position:relative;
+  font-size:13px;color:var(--txt);
+}
+.screen *{min-width:0}
+
+/* status bar */
+.sb{
+  flex:none;height:30px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;font-family:var(--f-mono);font-size:10px;font-weight:500;color:var(--txt);
+  background:var(--surface);
+}
+.sb .dots{display:flex;gap:3px;align-items:center}
+.sb .dots i{width:3px;height:3px;border-radius:50%;background:var(--txt);display:block}
+.sb .bat{width:16px;height:8px;border:1px solid var(--txt);border-radius:2px;position:relative;display:inline-block}
+.sb .bat::after{content:"";position:absolute;inset:1.5px;right:5px;background:var(--txt);border-radius:1px}
+
+/* screen chrome */
+.hd{
+  flex:none;padding:6px 16px 12px;display:flex;align-items:flex-start;
+  justify-content:space-between;gap:10px;background:var(--surface);
+}
+.hd .t{font-family:var(--f-display);font-weight:700;font-size:21px;letter-spacing:-.025em;line-height:1.15}
+.hd .sub{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--txt-3);margin-top:3px}
+.hd .act{display:flex;gap:7px;align-items:center;flex:none}
+.icobtn{
+  width:29px;height:29px;border-radius:9px;background:var(--surface-2);border:1px solid var(--line-soft);
+  display:grid;place-items:center;color:var(--txt-2);
+}
+.icobtn svg{width:15px;height:15px}
+.avatar{
+  width:29px;height:29px;border-radius:50%;background:var(--jade);color:#fff;
+  display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;font-weight:600;
+}
+
+.body{flex:1;overflow:hidden;padding:0 16px 14px;display:flex;flex-direction:column;gap:11px}
+.body.pad0{padding-left:0;padding-right:0}
+.body.scrollfade{-webkit-mask-image:linear-gradient(180deg,#000 88%,transparent);mask-image:linear-gradient(180deg,#000 88%,transparent)}
+
+/* tab bar */
+.tabs{
+  flex:none;height:56px;border-top:1px solid var(--line-soft);background:var(--surface);
+  display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding-bottom:4px;
+}
+.tabs a{
+  display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;
+  color:var(--txt-3);font-size:9px;font-weight:500;letter-spacing:.01em;
+}
+.tabs a svg{width:19px;height:19px}
+.tabs a.on{color:var(--jade)}
+.tabs a.nova{color:var(--jade)}
+.tabs a.nova .orb{
+  width:28px;height:28px;border-radius:50%;margin-top:-8px;
+  background:linear-gradient(150deg,var(--jade),var(--jade-deep));
+  display:grid;place-items:center;color:#fff;box-shadow:0 4px 12px -3px var(--jade);
+}
+.tabs a.nova .orb svg{width:15px;height:15px}
+
+/* cards & rows */
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:12px 13px;
+}
+.card.tint{background:var(--jade-mist);border-color:transparent}
+.card.warn{background:var(--watch-bg);border-color:transparent}
+.card.flat{background:var(--surface-2);border-color:transparent}
+.card .ct{
+  font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--txt-3);display:flex;justify-content:space-between;align-items:center;gap:8px;
+}
+.card .cb{font-size:12.5px;color:var(--txt-2);line-height:1.45;margin-top:6px}
+.card .cb b{color:var(--txt);font-weight:600}
+
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft)}
+.row:last-child{border-bottom:0}
+.row .ic{
+  width:32px;height:32px;flex:none;border-radius:9px;background:var(--surface-2);
+  display:grid;place-items:center;color:var(--txt-2);
+}
+.row .ic svg{width:16px;height:16px}
+.row .ic.j{background:var(--jade-mist);color:var(--jade)}
+.row .ic.w{background:var(--watch-bg);color:var(--watch)}
+.row .ic.h{background:var(--high-bg);color:var(--high)}
+.row .tx{flex:1;min-width:0}
+.row .tx b{display:block;font-size:12.5px;font-weight:600;line-height:1.3}
+.row .tx small{display:block;font-size:11px;color:var(--txt-3);line-height:1.35;margin-top:1px}
+.row .val{
+  font-family:var(--f-mono);font-size:12.5px;font-weight:500;text-align:right;
+  font-variant-numeric:tabular-nums;flex:none;
+}
+.row .val small{display:block;font-size:9.5px;color:var(--txt-3);font-weight:400}
+.chev{width:13px;height:13px;color:var(--txt-3);flex:none}
+
+/* metric tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tile{
+  background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:11px 12px 9px;
+  display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden;
+}
+.tile .lb{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--txt-3)}
+.tile .nm{font-family:var(--f-mono);font-size:23px;font-weight:600;letter-spacing:-.02em;line-height:1.15;font-variant-numeric:tabular-nums}
+.tile .nm sup{font-size:10px;font-weight:500;color:var(--txt-3);letter-spacing:0;top:-.7em}
+.tile .dl{font-size:10px;color:var(--txt-3);display:flex;align-items:center;gap:4px;margin-top:1px}
+.tile .dl .up{color:var(--high)}
+.tile .dl .dn{color:var(--ok)}
+.tile svg.sp{width:100%;height:26px;margin-top:5px;display:block;overflow:visible}
+.tile.wide{grid-column:1/-1}
+
+.pill{
+  display:inline-flex;align-items:center;gap:4px;font-family:var(--f-mono);
+  font-size:8.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 7px;border-radius:999px;background:var(--surface-2);color:var(--txt-2);
+}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.watch{background:var(--watch-bg);color:var(--watch)}
+.pill.high{background:var(--high-bg);color:var(--high)}
+.pill.low{background:var(--low-bg);color:var(--low)}
+.pill.jade{background:var(--jade-mist);color:var(--jade)}
+
+.sevbar{position:absolute;left:0;top:0;bottom:0;width:3px}
+.sevbar.ok{background:var(--ok)} .sevbar.watch{background:var(--watch)}
+.sevbar.high{background:var(--high)} .sevbar.low{background:var(--low)}
+
+/* buttons */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;height:42px;border-radius:12px;
+  background:var(--jade);color:#fff;font-size:13.5px;font-weight:600;flex:none;
+}
+.btn.ghost{background:var(--surface-2);color:var(--txt);border:1px solid var(--line)}
+.btn.sm{height:34px;font-size:12px;border-radius:10px;padding:0 14px;display:inline-flex;width:auto}
+.btn svg{width:15px;height:15px}
+:root[data-theme="dark"] .btn{color:#04211B}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#04211B}}
+:root[data-theme="dark"] .btn.ghost{color:var(--txt)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.ghost{color:var(--txt)}}
+:root[data-theme="dark"] .tabs a.nova .orb, .tabs a.nova .orb{color:#fff}
+
+/* inputs */
+.inp{
+  height:42px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);
+  display:flex;align-items:center;padding:0 12px;gap:8px;font-size:13px;color:var(--txt-2);
+}
+.inp .ph{color:var(--txt-3)}
+.inp.focus{border-color:var(--jade);background:var(--surface);box-shadow:0 0 0 3px var(--jade-mist)}
+.lab{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);margin-bottom:5px;display:block}
+.field{display:flex;flex-direction:column}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:10px;flex:1;overflow:hidden}
+.msg{max-width:88%;font-size:12.5px;line-height:1.5;border-radius:14px;padding:9px 12px}
+.msg.me{align-self:flex-end;background:var(--jade);color:#fff;border-bottom-right-radius:5px}
+:root[data-theme="dark"] .msg.me{color:#04211B}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .msg.me{color:#04211B}}
+.msg.ai{align-self:flex-start;background:var(--surface-2);border-bottom-left-radius:5px;max-width:94%}
+.msg.ai b{font-weight:600}
+.cites{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.cite{
+  display:inline-flex;align-items:center;gap:4px;font-family:var(--f-mono);font-size:8.5px;
+  letter-spacing:.05em;padding:3px 7px;border-radius:6px;background:var(--surface);
+  border:1px solid var(--line);color:var(--jade);
+}
+.composer{flex:none;display:flex;gap:8px;align-items:center;padding-top:2px}
+.composer .inp{flex:1}
+.sendbtn{width:42px;height:42px;border-radius:12px;background:var(--jade);color:#fff;display:grid;place-items:center;flex:none}
+:root[data-theme="dark"] .sendbtn{color:#04211B}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sendbtn{color:#04211B}}
+.sendbtn svg{width:17px;height:17px}
+.sugg{display:flex;gap:6px;flex-wrap:wrap}
+.sugg span{
+  font-size:11px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface);color:var(--txt-2);
+}
+
+/* misc screen atoms */
+.seg{display:flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:2px;flex:none}
+.seg span{flex:1;text-align:center;font-size:11px;font-weight:500;padding:6px 0;border-radius:8px;color:var(--txt-3)}
+.seg span.on{background:var(--surface);color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
+.sectitle{
+  font-family:var(--f-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--txt-3);display:flex;justify-content:space-between;align-items:center;
+}
+.sectitle a{color:var(--jade);text-decoration:none;font-size:9px}
+.prog{height:4px;border-radius:999px;background:var(--surface-3);overflow:hidden;flex:none}
+.prog i{display:block;height:100%;background:var(--jade);border-radius:999px}
+.steps{display:flex;gap:5px;flex:none}
+.steps i{flex:1;height:3px;border-radius:999px;background:var(--surface-3)}
+.steps i.on{background:var(--jade)}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:6px 0;border-bottom:1px solid var(--line-soft)}
+.kv:last-child{border-bottom:0}
+.kv span{color:var(--txt-3)}
+.kv b{font-family:var(--f-mono);font-weight:500;font-variant-numeric:tabular-nums}
+.toggle{width:36px;height:21px;border-radius:999px;background:var(--surface-3);position:relative;flex:none}
+.toggle::after{content:"";position:absolute;top:2.5px;left:2.5px;width:16px;height:16px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle.on{background:var(--jade)}
+.toggle.on::after{left:17.5px}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;flex:none}
+.keypad b{
+  height:56px;border-radius:16px;background:var(--surface-2);display:grid;place-items:center;
+  font-family:var(--f-mono);font-size:21px;font-weight:500;border:1px solid var(--line-soft);
+}
+.keypad b.blank{background:transparent;border-color:transparent}
+.pindots{display:flex;gap:12px;justify-content:center;flex:none}
+.pindots i{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--line);display:block}
+.pindots i.f{background:var(--jade);border-color:var(--jade)}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+.bignum{font-family:var(--f-mono);font-size:44px;font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.doc{
+  border:1px dashed var(--line);border-radius:12px;background:var(--surface-2);
+  padding:16px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;
+}
+.doc svg{width:26px;height:26px;color:var(--jade)}
+.doc small{font-size:11px;color:var(--txt-3);line-height:1.4}
+.timeline{display:flex;flex-direction:column;gap:0;position:relative;padding-left:18px}
+.timeline::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1.5px;background:var(--line)}
+.tev{position:relative;padding:8px 0}
+.tev::before{content:"";position:absolute;left:-16px;top:13px;width:9px;height:9px;border-radius:50%;background:var(--surface);border:2px solid var(--jade)}
+.tev.mut::before{border-color:var(--line)}
+.tev .d{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;color:var(--txt-3);text-transform:uppercase}
+.tev b{display:block;font-size:12.5px;font-weight:600;margin-top:2px;line-height:1.3}
+.tev small{display:block;font-size:11px;color:var(--txt-2);line-height:1.4;margin-top:2px}
+
+/* annotation list under artboards */
+.callouts{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.callouts li{
+  display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:start;
+  font-size:12.5px;color:var(--txt-2);line-height:1.5;
+}
+.callouts li i{
+  font-style:normal;font-family:var(--f-mono);font-size:9px;font-weight:600;
+  background:var(--jade-mist);color:var(--jade);border-radius:5px;
+  min-width:17px;height:17px;display:grid;place-items:center;margin-top:2px;padding:0 4px;
+}
+.callouts li b{color:var(--txt);font-weight:600}
+
+/* tables */
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow);margin-top:22px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--txt-3);font-weight:500;background:var(--surface-2);
+}
+tbody tr:last-child td{border-bottom:0}
+td b{font-weight:600}
+td code,p code,li code{font-family:var(--f-mono);font-size:12px;background:var(--surface-2);padding:1.5px 5px;border-radius:4px;color:var(--jade)}
+
+/* footer / decision */
+.decide{
+  margin-top:30px;border:1px solid var(--jade);border-radius:16px;
+  background:var(--jade-mist);padding:clamp(22px,3vw,34px);
+}
+.decide h3{font-size:22px;margin-bottom:10px}
+.decide p{font-size:14.5px;color:var(--txt-2);max-width:70ch}
+.decide ol{margin:16px 0 0;padding-left:20px;display:grid;gap:8px;font-size:14px;color:var(--txt-2)}
+.decide ol b{color:var(--txt)}
+footer{padding:40px 0 60px;border-top:1px solid var(--line-soft);margin-top:20px}
+footer .fine{font-family:var(--f-mono);font-size:11px;color:var(--txt-3);line-height:1.7}
+</style>
+
+<div class="wrap">
+
+<!-- ══════════════════════════ MASTHEAD ══════════════════════════ -->
+<header class="mast">
+  <div>
+    <div class="brandline">
+      <svg class="mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="46" height="46" rx="13" fill="var(--jade-deep)"/>
+        <path d="M7 27h6.5l3-7.5 4 15 4.5-19.5 3.5 12H41" stroke="var(--jade)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24 39c0-5 3.6-8.5 8-8.5-.4 4.8-3.6 8.5-8 8.5Z" fill="#8FD9C6"/>
+      </svg>
+      <div>
+        <div class="wordmark">aayu<span>.</span></div>
+        <div class="tagline">Continuous personal health intelligence</div>
+      </div>
+    </div>
+    <h1>Every signal you generate, <em>read together</em>.</h1>
+    <p class="lede">This is the design book for Aayu — brand, screen flow, and the full UI/UX specification for a personal health app that ingests your labs, records, wearables and documents, reasons over them with Claude, and answers questions grounded in your own record. Review it, mark what you want changed, and the build follows this document exactly.</p>
+  </div>
+  <div class="meta">
+    <dl>
+      <dt>Document</dt><dd>UI/UX specification &amp; brand system, v1</dd>
+      <dt>Product</dt><dd>Aayu — personal health intelligence</dd>
+      <dt>Copilot</dt><dd>Nadi — the reasoning layer</dd>
+      <dt>Screens</dt><dd>24 specified across 6 flows</dd>
+      <dt>Stack</dt><dd>Next.js · TypeScript · Postgres · Claude API</dd>
+      <dt>Status</dt><dd>Awaiting your approval to build</dd>
+    </dl>
+    <p class="stamp">Every screen below is drawn at true device width (316&nbsp;pt). Numbers shown are sample data, not medical fact. Nothing in this document is medical advice.</p>
+  </div>
+</header>
+
+<!-- ══════════════════════════ 1 · BRAND ══════════════════════════ -->
+<section class="sec" id="brand">
+  <div class="eyebrow">01 — Identity</div>
+  <div class="prose">
+    <h2>The brand: Aayu, and a copilot called Nadi</h2>
+    <p class="lede"><b>Aayu</b> (आयु) means lifespan — not a moment of health, but the whole length of it. That is exactly the claim the product makes: your health is a continuous line, and care today only ever samples it. <b>Nadi</b> (नाड़ी) is the pulse — and in the older diagnostic tradition, the practice of reading a person's whole state from one continuous signal. So the two names carry the product thesis without a word of explanation: Aayu is the record of your life; Nadi is what reads it.</p>
+  </div>
+
+  <div class="grid g3" style="margin-top:28px">
+    <div class="panel">
+      <span class="kicker">Wordmark</span>
+      <h3>aayu.</h3>
+      <p>Set in Bricolage Grotesque 800, lowercase, tight tracking, terminal period. The period is the mark of a reading taken — a full stop on a measurement. Never set in title case, never stretched, never on a gradient.</p>
+    </div>
+    <div class="panel">
+      <span class="kicker">Symbol</span>
+      <h3>Pulse into leaf</h3>
+      <p>An ECG trace that resolves into a single sprouting leaf on its right end. Clinical instrument on the left, living thing on the right — the trace is the data, the leaf is the person. Works at 16&nbsp;px as a favicon and 512&nbsp;px as an app icon.</p>
+    </div>
+    <div class="panel">
+      <span class="kicker">Voice</span>
+      <h3>Precise, never alarming</h3>
+      <p>Aayu states what it measured, when, and against which range. It never says "concerning" or "you should" — it says "above your usual range since June" and "worth raising at your next visit." Every claim is followed by where it came from.</p>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:44px">
+    <h3>Palette</h3>
+    <p class="lede" style="font-size:15.5px">Jade rather than the medical blue every health app defaults to — deep enough to read as clinical, warm enough to not read as a hospital. Turmeric is the only accent, and it is spent on one thing: something that needs your attention. Grounds are a cool neutral pulled slightly green so the interface reads as one material.</p>
+  </div>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#0F6E5C"></div><div class="lbl"><b>Jade</b><code>#0F6E5C</code><small>Primary. Actions, active state, Nadi.</small></div></div>
+    <div class="sw"><div class="chip" style="background:#08483D"></div><div class="lbl"><b>Deep Jade</b><code>#08483D</code><small>App icon ground, headers, Nadi orb.</small></div></div>
+    <div class="sw"><div class="chip" style="background:#D8EAE3"></div><div class="lbl"><b>Jade Mist</b><code>#D8EAE3</code><small>Grounded/cited surfaces, tints.</small></div></div>
+    <div class="sw"><div class="chip" style="background:#B96F14"></div><div class="lbl"><b>Turmeric</b><code>#B96F14</code><small>Accent. Attention, never decoration.</small></div></div>
+    <div class="sw"><div class="chip" style="background:#0E211C"></div><div class="lbl"><b>Ink</b><code>#0E211C</code><small>Type. Near-black, green-biased.</small></div></div>
+    <div class="sw"><div class="chip" style="background:#EFF4F1"></div><div class="lbl"><b>Paper</b><code>#EFF4F1</code><small>App ground in light theme.</small></div></div>
+  </div>
+  <div class="swatches" style="margin-top:12px">
+    <div class="sw"><div class="chip" style="background:#2C8B58;height:56px"></div><div class="lbl"><b>In range</b><code>#2C8B58</code></div></div>
+    <div class="sw"><div class="chip" style="background:#A9761A;height:56px"></div><div class="lbl"><b>Watch</b><code>#A9761A</code></div></div>
+    <div class="sw"><div class="chip" style="background:#B03F35;height:56px"></div><div class="lbl"><b>Above range</b><code>#B03F35</code></div></div>
+    <div class="sw"><div class="chip" style="background:#38609F;height:56px"></div><div class="lbl"><b>Below range</b><code>#38609F</code></div></div>
+  </div>
+  <p style="font-size:13.5px;color:var(--txt-2);margin-top:14px;max-width:70ch">Clinical status colours are a separate system from the brand accent, and they are always paired with a label or a position on a range bar — colour alone never carries the meaning. Both themes are specified; every value above has a dark-theme counterpart tuned for contrast on the dark ground.</p>
+
+  <div class="prose" style="margin-top:44px">
+    <h3>Typography</h3>
+  </div>
+  <div class="spec">
+    <div class="role"><span>Display · Bricolage Grotesque</span><span>600 / 700 / 800</span></div>
+    <div class="sample-display">Your A1c has been flat for four months.</div>
+    <p style="font-size:13.5px;color:var(--txt-2);margin-top:12px">Used for screen titles and headline numbers only. It has an engineered, slightly irregular skeleton — enough personality to be a brand, disciplined enough to sit above a lab table.</p>
+  </div>
+  <div class="spec">
+    <div class="role"><span>Body · IBM Plex Sans</span><span>400 / 450 / 500 / 600</span></div>
+    <p class="sample-body">Vitamin D came back at 24&nbsp;ng/mL on 12 August, below the 30–100 reference range used by your lab. It was 31 in February. Your last three results trend down through the winter and have not recovered.</p>
+  </div>
+  <div class="spec">
+    <div class="role"><span>Data · IBM Plex Mono</span><span>400 / 500 / 600 · tabular</span></div>
+    <div class="sample-mono">A1C 6.1 % &nbsp;·&nbsp; LDL 118 mg/dL &nbsp;·&nbsp; BP 128/82 &nbsp;·&nbsp; eGFR 92 &nbsp;·&nbsp; 25-OH-D 24</div>
+    <p style="font-size:13.5px;color:var(--txt-2);margin-top:12px">Every measured value in the product is set in mono with tabular figures, so columns of results align and a changed digit is visible without reading the number. Labels and metadata use the same face at 9–10&nbsp;px with wide tracking.</p>
+    <div class="scale">
+      <div><b>34 / 21 px</b>Display — screen title</div>
+      <div><b>23 px</b>Mono — headline metric</div>
+      <div><b>15 / 13 px</b>Body — content</div>
+      <div><b>12.5 px</b>Body — list rows</div>
+      <div><b>9–10 px</b>Mono — labels, .14em</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ 2 · IA + FLOW ══════════════════════════ -->
+<section class="sec" id="flow">
+  <div class="eyebrow">02 — Architecture of the experience</div>
+  <div class="prose">
+    <h2>Five tabs, one record, everything cites its source</h2>
+    <p class="lede">The whole product resolves to a single idea: there is one record, and every screen is a different lens on it. Ingest screens write to it, dashboard screens read from it, and Nadi reasons over it — never over a separate copy. That is why the tab bar has five items and not nine.</p>
+  </div>
+
+  <div class="grid g3" style="margin-top:26px">
+    <div class="panel"><span class="kicker">Tab 01</span><h3>Today</h3><p>The dashboard. What changed since you last looked, what is out of range, what needs an action today.</p></div>
+    <div class="panel"><span class="kicker">Tab 02</span><h3>Record</h3><p>Labs, vitals, documents, EHR history and activity — one continuous timeline you can filter and search.</p></div>
+    <div class="panel"><span class="kicker">Tab 03 · centre</span><h3>Nadi</h3><p>Ask anything. Answers are drawn from your record and every sentence carries a citation you can tap.</p></div>
+    <div class="panel"><span class="kicker">Tab 04</span><h3>Care</h3><p>Medications, screenings due, care gaps, appointments and the visit-prep report you take to your doctor.</p></div>
+    <div class="panel"><span class="kicker">Tab 05</span><h3>Profile</h3><p>What only you know — conditions, allergies, family history, lifestyle, goals — plus settings and security.</p></div>
+    <div class="panel" style="border-color:var(--turmeric);background:var(--turmeric-mist)"><span class="kicker">Cross-cutting</span><h3>Add, from anywhere</h3><p>A single "＋" on every tab opens the same capture sheet: log a vital, upload a document, take a photo of a lab report, add a medication.</p></div>
+  </div>
+
+  <div class="prose" style="margin-top:48px"><h3>Screen flow</h3>
+  <p style="font-size:15px;color:var(--txt-2);margin-top:8px">Jade lines are the paths you will walk daily. Turmeric boxes are the security surfaces specified in section 05.</p></div>
+
+  <div class="diagram">
+  <svg viewBox="0 0 1180 660" role="img" aria-label="Aayu screen flow: first run, daily loop, ingest and records, Nadi and manage">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="var(--line)"/>
+      </marker>
+      <marker id="arj" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="var(--jade)"/>
+      </marker>
+    </defs>
+
+    <!-- zones -->
+    <rect class="d-zone" x="16" y="44" width="272" height="572" rx="14"/>
+    <text class="d-zt" x="32" y="68">First run · once</text>
+    <rect class="d-zone" x="312" y="44" width="464" height="330" rx="14"/>
+    <text class="d-zt" x="328" y="68">Daily loop</text>
+    <rect class="d-zone" x="312" y="392" width="464" height="224" rx="14"/>
+    <text class="d-zt" x="328" y="416">Ingest → record</text>
+    <rect class="d-zone" x="800" y="44" width="364" height="572" rx="14"/>
+    <text class="d-zt" x="816" y="68">Intelligence &amp; management</text>
+
+    <!-- FIRST RUN -->
+    <g>
+      <rect class="d-box" x="40" y="84" width="224" height="44" rx="10"/>
+      <text class="d-t" x="56" y="104">Create account</text><text class="d-s" x="56" y="118">EMAIL + PASSPHRASE · A1</text>
+      <path class="d-line" d="M152 128 V148" marker-end="url(#ar)"/>
+
+      <rect class="d-box-sec" x="40" y="150" width="224" height="44" rx="10"/>
+      <text class="d-t" x="56" y="170">Verify email · set 2FA</text><text class="d-s" x="56" y="184">TOTP + RECOVERY CODES · A2</text>
+      <path class="d-line" d="M152 194 V214" marker-end="url(#ar)"/>
+
+      <rect class="d-box-sec" x="40" y="216" width="224" height="44" rx="10"/>
+      <text class="d-t" x="56" y="236">Consent &amp; data scope</text><text class="d-s" x="56" y="250">WHAT NADI MAY READ · B1</text>
+      <path class="d-line" d="M152 260 V280" marker-end="url(#ar)"/>
+
+      <rect class="d-box" x="40" y="282" width="224" height="44" rx="10"/>
+      <text class="d-t" x="56" y="302">Profile wizard</text><text class="d-s" x="56" y="316">5 STEPS · B2 – B3</text>
+      <path class="d-line" d="M152 326 V346" marker-end="url(#ar)"/>
+
+      <rect class="d-box" x="40" y="348" width="224" height="44" rx="10"/>
+      <text class="d-t" x="56" y="368">Connect your data</text><text class="d-s" x="56" y="382">EHR · WEARABLE · DOCS · B4</text>
+      <path class="d-line" d="M152 392 V412" marker-end="url(#ar)"/>
+
+      <rect class="d-box" x="40" y="414" width="224" height="44" rx="10"/>
+      <text class="d-t" x="56" y="434">First baseline built</text><text class="d-s" x="56" y="448">NADI SUMMARISES INTAKE</text>
+      <path class="d-line-key" d="M264 436 C292 436 292 118 300 118" marker-end="url(#arj)"/>
+
+      <rect class="d-box-sec" x="40" y="520" width="224" height="44" rx="10"/>
+      <text class="d-t" x="56" y="540">App lock on every open</text><text class="d-s" x="56" y="554">BIOMETRIC / PIN · A3</text>
+      <path class="d-line" d="M152 520 V478" marker-end="url(#ar)"/>
+      <text class="d-lbl" x="60" y="500">RETURNING VISIT</text>
+    </g>
+
+    <!-- DAILY LOOP -->
+    <g>
+      <rect class="d-box-key" x="466" y="92" width="188" height="52" rx="11"/>
+      <text class="d-t" x="484" y="115">Today</text><text class="d-s" x="484" y="130">DASHBOARD · C1</text>
+
+      <path class="d-line-key" d="M500 144 V178" marker-end="url(#arj)"/>
+      <path class="d-line-key" d="M620 144 V178" marker-end="url(#arj)"/>
+      <rect class="d-box" x="336" y="180" width="180" height="44" rx="10"/>
+      <text class="d-t" x="352" y="200">Metric detail</text><text class="d-s" x="352" y="214">TREND + RANGE · C2</text>
+      <rect class="d-box" x="560" y="180" width="180" height="44" rx="10"/>
+      <text class="d-t" x="576" y="200">Quick log</text><text class="d-s" x="576" y="214">BP · GLUCOSE · WEIGHT · C3</text>
+
+      <path class="d-line" d="M426 224 V250" marker-end="url(#ar)"/>
+      <path class="d-line" d="M650 224 V250" marker-end="url(#ar)"/>
+      <rect class="d-box" x="336" y="252" width="180" height="44" rx="10"/>
+      <text class="d-t" x="352" y="272">Timeline</text><text class="d-s" x="352" y="286">ALL EVENTS · C4</text>
+      <rect class="d-box" x="560" y="252" width="180" height="44" rx="10"/>
+      <text class="d-t" x="576" y="272">Care gaps</text><text class="d-s" x="576" y="286">SCREENINGS DUE · C5</text>
+
+      <path class="d-line" d="M426 296 V320" marker-end="url(#ar)"/>
+      <path class="d-line" d="M650 296 V320" marker-end="url(#ar)"/>
+      <rect class="d-box" x="424" y="322" width="228" height="44" rx="10"/>
+      <text class="d-t" x="440" y="342">Visit-prep report</text><text class="d-s" x="440" y="356">SHAREABLE PDF · D3</text>
+    </g>
+
+    <!-- INGEST -->
+    <g>
+      <rect class="d-box" x="336" y="436" width="180" height="44" rx="10"/>
+      <text class="d-t" x="352" y="456">Upload document</text><text class="d-s" x="352" y="470">PDF · PHOTO · SCAN · E2</text>
+      <path class="d-line-key" d="M516 458 H556" marker-end="url(#arj)"/>
+      <rect class="d-box-key" x="560" y="436" width="180" height="44" rx="10"/>
+      <text class="d-t" x="576" y="456">Nadi extracts markers</text><text class="d-s" x="576" y="470">CLAUDE VISION → JSON</text>
+      <path class="d-line-key" d="M650 480 C650 496 426 494 426 508" marker-end="url(#arj)"/>
+      <rect class="d-box" x="336" y="510" width="180" height="44" rx="10"/>
+      <text class="d-t" x="352" y="530">You confirm each value</text><text class="d-s" x="352" y="544">NOTHING SAVED UNSEEN</text>
+      <path class="d-line-key" d="M516 532 H556" marker-end="url(#arj)"/>
+      <rect class="d-box" x="560" y="510" width="180" height="44" rx="10"/>
+      <text class="d-t" x="576" y="530">Merged into record</text><text class="d-s" x="576" y="544">LABS · E3 · RECORDS · E4</text>
+      <path class="d-line" d="M740 532 C776 532 776 250 776 210" marker-end="url(#ar)"/>
+      <text class="d-lbl" x="700" y="600">EHR / WEARABLE SYNC ENTERS THE SAME REVIEW STEP</text>
+    </g>
+
+    <!-- INTELLIGENCE -->
+    <g>
+      <path class="d-line-key" d="M654 112 H820" marker-end="url(#arj)"/>
+      <text class="d-lbl" x="686" y="104">ASK ABOUT ANY METRIC</text>
+      <rect class="d-box-key" x="824" y="90" width="320" height="52" rx="11"/>
+      <text class="d-t" x="842" y="113">Ask Nadi</text><text class="d-s" x="842" y="128">GROUNDED CHAT · STREAMING · D1</text>
+      <path class="d-line-key" d="M984 142 V162" marker-end="url(#arj)"/>
+      <rect class="d-box" x="824" y="164" width="320" height="44" rx="10"/>
+      <text class="d-t" x="842" y="184">“What Nadi read” drawer</text><text class="d-s" x="842" y="198">EVERY CITATION, TAPPABLE · D2</text>
+
+      <rect class="d-box" x="824" y="240" width="320" height="44" rx="10"/>
+      <text class="d-t" x="842" y="260">Medications &amp; adherence</text><text class="d-s" x="842" y="274">SCHEDULE · INTERACTIONS · F1</text>
+      <rect class="d-box" x="824" y="304" width="320" height="44" rx="10"/>
+      <text class="d-t" x="842" y="324">Health profile</text><text class="d-s" x="842" y="338">CONDITIONS · FAMILY · GOALS · F2</text>
+      <rect class="d-box-sec" x="824" y="380" width="320" height="44" rx="10"/>
+      <text class="d-t" x="842" y="400">Security centre</text><text class="d-s" x="842" y="414">2FA · SESSIONS · LOCK · F3</text>
+      <rect class="d-box-sec" x="824" y="444" width="320" height="44" rx="10"/>
+      <text class="d-t" x="842" y="464">Access &amp; audit log</text><text class="d-s" x="842" y="478">WHO READ WHAT, WHEN · F4</text>
+      <rect class="d-box-sec" x="824" y="508" width="320" height="44" rx="10"/>
+      <text class="d-t" x="842" y="528">Export or erase everything</text><text class="d-s" x="842" y="542">JSON · FHIR · PDF · F4</text>
+    </g>
+  </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════ 3 · SCREENS ══════════════════════════ -->
+<section class="sec" id="screens-a">
+  <div class="eyebrow">03 — Screens · Group A</div>
+  <div class="prose">
+    <h2>Getting in</h2>
+    <p class="lede">Four screens stand between a stranger and your health record. They are deliberately the least clever screens in the product: no marketing, no illustration, no "skip for now" on anything that protects data. Recovery is designed before it is needed, because a lost passphrase on an end-to-end encrypted record is unrecoverable by anyone — including me.</p>
+  </div>
+
+  <div class="board">
+
+    <!-- A1 SIGN IN -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="body" style="justify-content:center;gap:16px;padding:0 26px 30px">
+          <svg width="44" height="44" viewBox="0 0 48 48" fill="none" style="margin:0 auto 4px">
+            <rect x="1" y="1" width="46" height="46" rx="13" fill="var(--jade-deep)"/>
+            <path d="M7 27h6.5l3-7.5 4 15 4.5-19.5 3.5 12H41" stroke="var(--jade)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24 39c0-5 3.6-8.5 8-8.5-.4 4.8-3.6 8.5-8 8.5Z" fill="#8FD9C6"/>
+          </svg>
+          <div style="text-align:center">
+            <div style="font-family:var(--f-display);font-weight:700;font-size:25px;letter-spacing:-.03em">Welcome back</div>
+            <div style="font-size:12.5px;color:var(--txt-2);margin-top:5px;line-height:1.45">Your record is encrypted with a key only your passphrase unlocks.</div>
+          </div>
+          <div class="field" style="margin-top:6px"><span class="lab">Email</span><div class="inp">vellayanl@gmail.com</div></div>
+          <div class="field"><span class="lab">Passphrase</span><div class="inp focus"><span style="letter-spacing:.24em">••••••••••••</span>
+            <svg style="margin-left:auto;width:15px;height:15px;color:var(--txt-3)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div></div>
+          <div class="btn" style="margin-top:4px">Unlock</div>
+          <div class="btn ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M9 10v1M15 10v1M9 15c1.8 1.4 4.2 1.4 6 0"/></svg>
+            Use Face ID
+          </div>
+          <div style="text-align:center;font-size:11.5px;color:var(--txt-3);margin-top:2px">Forgot passphrase? <b style="color:var(--jade)">Use recovery kit</b></div>
+          <div class="card flat" style="margin-top:8px;display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:15px;height:15px;color:var(--jade);flex:none;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div style="font-size:11px;color:var(--txt-2);line-height:1.45">Health data is encrypted on the server with a key derived from this passphrase. Six failed attempts locks the account for 15 minutes.</div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">A1</div><div class="name">Sign in</div>
+        <ul class="callouts">
+          <li><i>1</i>Passphrase, not password — minimum 12 characters, checked against the breached-password list on entry, strength meter below the field.</li>
+          <li><i>2</i>Biometric unlock is offered only after the first successful passphrase sign-in on that device.</li>
+          <li><i>3</i>Failed attempts are rate-limited and back off exponentially; every attempt lands in the audit log with IP and device.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- A2 TWO FACTOR -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">Verify it's you</div><div class="sub">Step 2 of 2</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></span></div></div>
+        <div class="body" style="gap:16px">
+          <p style="font-size:12.5px;color:var(--txt-2);line-height:1.5">Enter the 6-digit code from your authenticator app.</p>
+          <div style="display:flex;gap:7px">
+            <div class="inp" style="flex:1;justify-content:center;font-family:var(--f-mono);font-size:19px;color:var(--txt);height:52px">4</div>
+            <div class="inp" style="flex:1;justify-content:center;font-family:var(--f-mono);font-size:19px;color:var(--txt);height:52px">1</div>
+            <div class="inp" style="flex:1;justify-content:center;font-family:var(--f-mono);font-size:19px;color:var(--txt);height:52px">9</div>
+            <div class="inp focus" style="flex:1;justify-content:center;height:52px"><span style="color:var(--jade)">|</span></div>
+            <div class="inp" style="flex:1;height:52px"></div>
+            <div class="inp" style="flex:1;height:52px"></div>
+          </div>
+          <div class="card flat" style="display:flex;align-items:center;gap:10px">
+            <div class="toggle on"></div>
+            <div style="font-size:12px;line-height:1.4"><b style="font-weight:600">Trust this device for 30 days</b><br><span style="color:var(--txt-3);font-size:11px">iPhone 15 · Chennai · first seen today</span></div>
+          </div>
+          <div class="btn">Verify</div>
+          <div style="text-align:center;font-size:11.5px;color:var(--txt-3)">Lost your authenticator? <b style="color:var(--jade)">Enter a recovery code</b></div>
+          <div class="sectitle" style="margin-top:6px">Also protecting this account</div>
+          <div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><div class="tx"><b>App lock</b><small>Face ID after 2 minutes idle</small></div><span class="pill ok">On</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/></svg></span><div class="tx"><b>Record encryption</b><small>AES-256-GCM, per-record keys</small></div><span class="pill ok">On</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>Access alerts</b><small>Email on any new device</small></div><span class="pill ok">On</span></div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">A2</div><div class="name">Two-factor</div>
+        <ul class="callouts">
+          <li><i>1</i>TOTP is mandatory, not optional — the account cannot reach the record without it enrolled.</li>
+          <li><i>2</i>Ten single-use recovery codes are issued at enrolment and shown once (screen A4).</li>
+          <li><i>3</i>"Trust this device" stores a signed device token, revocable individually from the security centre (F3).</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- A3 APP LOCK -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="body" style="padding:0 26px 26px">
+          <div class="center" style="flex:none;padding:30px 0 22px">
+            <div style="width:56px;height:56px;border-radius:18px;background:var(--jade-mist);display:grid;place-items:center;color:var(--jade)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            </div>
+            <div>
+              <div style="font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:-.02em">Aayu is locked</div>
+              <div style="font-size:12px;color:var(--txt-2);margin-top:4px">Enter your PIN to continue</div>
+            </div>
+            <div class="pindots" style="margin-top:4px"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="keypad">
+            <b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b>
+            <b class="blank" style="color:var(--jade);font-size:11px;font-family:var(--f-body);font-weight:600">Face ID</b>
+            <b>0</b>
+            <b class="blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--txt-3)" stroke-width="1.8"><path d="M20 6H9l-5 6 5 6h11a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Z"/><path d="m13 10 4 4M17 10l-4 4"/></svg></b>
+          </div>
+          <div style="text-align:center;font-size:11px;color:var(--txt-3);margin-top:14px;line-height:1.5">Locked after 2 minutes in the background.<br>Sign out completely to clear the local cache.</div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">A3</div><div class="name">App lock</div>
+        <ul class="callouts">
+          <li><i>1</i>Separate from sign-in: this is the fast re-entry when the app has been backgrounded, and it never re-transmits the passphrase.</li>
+          <li><i>2</i>Screen contents are blurred in the OS app switcher while locked.</li>
+          <li><i>3</i>Five wrong PINs escalate to a full passphrase sign-in and wipe the on-device cache.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- A4 RECOVERY KIT -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">Your recovery kit</div><div class="sub">Shown once · save it now</div></div></div>
+        <div class="body" style="gap:12px">
+          <div class="card warn" style="display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:16px;height:16px;color:var(--watch);flex:none;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v5M12 17.5v.5"/><path d="M10.3 3.9 2.6 17.4A2 2 0 0 0 4.3 20.4h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+            <div style="font-size:11.5px;color:var(--txt-2);line-height:1.5">If you lose both your passphrase and these codes, your record cannot be decrypted by anyone. That is the point — but it means this page matters.</div>
+          </div>
+          <div class="sectitle">Recovery codes · 10 single-use</div>
+          <div class="card" style="font-family:var(--f-mono);font-size:12px;line-height:2;letter-spacing:.06em;color:var(--txt-2);columns:2;column-gap:14px">
+            <div>4KQ2-9WXB</div><div>7TDR-1MHE</div><div>PN63-8ZCV</div><div>UY94-3JKF</div>
+            <div>B2LM-6QAS</div><div>XE78-5RVT</div><div>93HC-DWNP</div><div>ZQ41-7GBY</div>
+            <div>MF05-2LKD</div><div>C8VJ-4XRA</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <div class="btn ghost" style="flex:1;height:38px;font-size:12.5px">Copy</div>
+            <div class="btn ghost" style="flex:1;height:38px;font-size:12.5px">Download</div>
+            <div class="btn ghost" style="flex:1;height:38px;font-size:12.5px">Print</div>
+          </div>
+          <div class="sectitle" style="margin-top:4px">Confirm</div>
+          <div class="card flat" style="display:flex;gap:10px;align-items:center">
+            <div style="width:19px;height:19px;border-radius:6px;background:var(--jade);display:grid;place-items:center;flex:none">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></div>
+            <div style="font-size:12px;line-height:1.4;color:var(--txt-2)">I have saved these codes somewhere I can reach without this phone.</div>
+          </div>
+          <div class="btn">Continue</div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">A4</div><div class="name">Recovery kit</div>
+        <ul class="callouts">
+          <li><i>1</i>Codes are stored server-side only as Argon2id hashes; the plaintext exists on this screen and nowhere else.</li>
+          <li><i>2</i>Using a code forces an immediate passphrase reset and re-wraps the record key.</li>
+          <li><i>3</i>Remaining code count is shown in the security centre; regenerating invalidates all ten.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="sec" id="screens-b">
+  <div class="eyebrow">03 — Screens · Group B</div>
+  <div class="prose">
+    <h2>Setting up the record</h2>
+    <p class="lede">Onboarding has one job: get enough into the record that the first Nadi answer is genuinely about you. It asks for consent before it asks for anything else, then takes five short steps — and every step can be finished later without blocking the app. The deck's "Health Profile" pillar is this flow plus its permanent home at F2.</p>
+  </div>
+
+  <div class="board">
+
+    <!-- B1 CONSENT -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">What Nadi may read</div><div class="sub">Step 1 of 5</div></div></div>
+        <div class="body" style="gap:11px">
+          <div class="steps"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+          <p style="font-size:12.5px;color:var(--txt-2);line-height:1.5">Nadi only sees what you switch on here, and only the slices relevant to the question you ask. Change any of this later in Privacy.</p>
+          <div class="card" style="padding:4px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6l1 4h4v13H4V7h4l1-4Z"/><path d="M9 13h6M12 10v6"/></svg></span><div class="tx"><b>Labs &amp; biomarkers</b><small>Values, dates, reference ranges</small></div><div class="toggle on"></div></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>Vitals &amp; wearables</b><small>BP, glucose, sleep, steps, HR</small></div><div class="toggle on"></div></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><div class="tx"><b>Documents &amp; EHR notes</b><small>Uploaded reports, clinical history</small></div><div class="toggle on"></div></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></span><div class="tx"><b>Profile &amp; family history</b><small>Conditions, allergies, relatives</small></div><div class="toggle on"></div></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div class="tx"><b>Reproductive health</b><small>Cycle, pregnancy, menopause</small></div><div class="toggle"></div></div>
+          </div>
+          <div class="card flat" style="display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:15px;height:15px;color:var(--jade);flex:none;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/></svg>
+            <div style="font-size:11px;color:var(--txt-2);line-height:1.5">Your data is never used to train any model. Requests to Claude carry your health values but not your name, email, address or record IDs.</div>
+          </div>
+          <div class="btn" style="margin-top:auto">Agree &amp; continue</div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">B1</div><div class="name">Consent &amp; data scope</div>
+        <ul class="callouts">
+          <li><i>1</i>Consent is per-category and stored with a timestamp and version, so a later change is auditable.</li>
+          <li><i>2</i>A category switched off is excluded from retrieval at the query layer, not filtered after the fact.</li>
+          <li><i>3</i>Sensitive categories (reproductive, mental health, genetics) default to <b>off</b> and must be switched on deliberately.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- B2 PROFILE BASICS -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">About you</div><div class="sub">Step 2 of 5 · basics</div></div>
+          <div class="act"><span style="font-size:12px;color:var(--jade);font-weight:600">Skip</span></div></div>
+        <div class="body" style="gap:12px">
+          <div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+          <div style="display:flex;gap:9px">
+            <div class="field" style="flex:1"><span class="lab">Date of birth</span><div class="inp" style="font-family:var(--f-mono)">1974-03-12</div></div>
+            <div class="field" style="flex:1"><span class="lab">Sex at birth</span><div class="inp">Male</div></div>
+          </div>
+          <div class="field"><span class="lab">Gender identity <span style="text-transform:none;letter-spacing:0;color:var(--txt-3)">· optional</span></span><div class="inp"><span class="ph">Prefer not to say</span></div></div>
+          <div style="display:flex;gap:9px">
+            <div class="field" style="flex:1"><span class="lab">Height</span><div class="inp" style="font-family:var(--f-mono)">175 cm</div></div>
+            <div class="field" style="flex:1"><span class="lab">Weight</span><div class="inp focus" style="font-family:var(--f-mono)">74.2 kg</div></div>
+          </div>
+          <div class="card flat" style="display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-size:12px;font-weight:600">BMI</div><div style="font-size:10.5px;color:var(--txt-3)">Calculated, not stored</div></div>
+            <div style="font-family:var(--f-mono);font-size:19px;font-weight:600">24.2</div>
+          </div>
+          <div style="display:flex;gap:9px">
+            <div class="field" style="flex:1"><span class="lab">Blood type</span><div class="inp">O+</div></div>
+            <div class="field" style="flex:1"><span class="lab">Ancestry</span><div class="inp">South Asian</div></div>
+          </div>
+          <div class="field"><span class="lab">Units</span>
+            <div class="seg"><span class="on">Metric</span><span>Imperial</span></div></div>
+          <div style="font-size:11px;color:var(--txt-3);line-height:1.5">Ancestry and sex at birth change which reference ranges and screening rules apply to you — that is the only reason they are asked.</div>
+          <div class="btn" style="margin-top:auto">Continue</div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">B2</div><div class="name">Basics &amp; biometrics</div>
+        <ul class="callouts">
+          <li><i>1</i>Every field explains why it is being collected at the point of collection — no field is mandatory except date of birth and sex at birth.</li>
+          <li><i>2</i>Units are a per-account setting applied everywhere, including Nadi's answers and exports.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- B3 CONDITIONS -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">Conditions &amp; meds</div><div class="sub">Step 3 of 5</div></div>
+          <div class="act"><span style="font-size:12px;color:var(--jade);font-weight:600">Skip</span></div></div>
+        <div class="body" style="gap:11px">
+          <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          <div class="inp"><svg style="width:15px;height:15px;color:var(--txt-3)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="ph">Search conditions, meds, allergies</span></div>
+          <div class="sectitle">Conditions <span style="color:var(--txt-3)">2</span></div>
+          <div class="card" style="padding:4px 13px">
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c3 4 6 6.5 6 10a6 6 0 0 1-12 0c0-3.5 3-6 6-10Z"/></svg></span><div class="tx"><b>Type 2 diabetes</b><small>Since 2019 · ICD-10 E11.9</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>Hypertension, stage 1</b><small>Since 2022 · ICD-10 I10</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+          <div class="sectitle">Medications <span style="color:var(--txt-3)">3</span></div>
+          <div class="card" style="padding:4px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/><path d="M9 9 15 15"/></svg></span><div class="tx"><b>Metformin</b><small>1000 mg · twice daily</small></div><span class="pill jade">Active</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/><path d="M9 9 15 15"/></svg></span><div class="tx"><b>Telmisartan</b><small>40 mg · morning</small></div><span class="pill jade">Active</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/><path d="M9 9 15 15"/></svg></span><div class="tx"><b>Vitamin D3</b><small>2000 IU · daily</small></div><span class="pill jade">Active</span></div>
+          </div>
+          <div class="sectitle">Allergies <span style="color:var(--txt-3)">1</span></div>
+          <div class="card" style="padding:4px 13px">
+            <div class="row"><span class="ic h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v5M12 17.5v.5"/><circle cx="12" cy="12" r="9"/></svg></span><div class="tx"><b>Sulfa drugs</b><small>Rash · reported 2016</small></div><span class="pill high">Severe</span></div>
+          </div>
+          <div class="btn" style="margin-top:auto">Continue</div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">B3</div><div class="name">Conditions, meds &amp; allergies</div>
+        <ul class="callouts">
+          <li><i>1</i>Search is backed by a local coded vocabulary — conditions map to ICD-10, medications to RxNorm — so imported EHR data merges with what you typed instead of duplicating it.</li>
+          <li><i>2</i>Steps 4 and 5 continue with family history (relatives + conditions) and lifestyle &amp; goals (sleep target, activity, diet pattern, what you want from the app).</li>
+          <li><i>3</i>Allergy severity drives a hard interaction warning later in F1, not just a label.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- B4 CONNECT -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">Connect your data</div><div class="sub">Step 5 of 5</div></div>
+          <div class="act"><span style="font-size:12px;color:var(--jade);font-weight:600">Later</span></div></div>
+        <div class="body" style="gap:11px">
+          <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+          <p style="font-size:12.5px;color:var(--txt-2);line-height:1.5">Each source you connect makes every answer sharper. Connect one now, add the rest whenever.</p>
+          <div class="card" style="padding:4px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6l1 4h4v13H4V7h4l1-4Z"/></svg></span><div class="tx"><b>Health system records</b><small>SMART on FHIR · 12,000 providers</small></div><span class="btn sm ghost">Connect</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l3 2"/><path d="M8 2h8M8 22h8"/></svg></span><div class="tx"><b>Apple Health</b><small>Steps, sleep, heart, workouts</small></div><span class="pill ok">Synced</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>Fitbit</b><small>HRV, SpO₂, sleep stages</small></div><span class="btn sm ghost">Connect</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><div class="tx"><b>Upload documents</b><small>Lab PDFs, discharge notes, scans</small></div><span class="btn sm ghost">Upload</span></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v3h16v-3"/></svg></span><div class="tx"><b>Import a file</b><small>Apple Health export, FHIR bundle, CSV</small></div><span class="btn sm ghost">Choose</span></div>
+          </div>
+          <div class="card tint" style="display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:15px;height:15px;color:var(--jade);flex:none;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg>
+            <div style="font-size:11.5px;color:var(--txt-2);line-height:1.5"><b style="color:var(--txt)">1 source connected.</b> Nadi built your baseline from 218 Apple Health days and your 3 profile conditions.</div>
+          </div>
+          <div class="btn" style="margin-top:auto">Go to Today</div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">B4</div><div class="name">Connect your data</div>
+        <ul class="callouts">
+          <li><i>1</i>Tokens for connected sources are encrypted at rest and scoped read-only; each source has an independent "disconnect &amp; delete what it brought" action.</li>
+          <li><i>2</i>File import is the fallback that always works — an Apple Health <code>export.zip</code> or a FHIR bundle parses fully offline, with no third-party service involved.</li>
+          <li><i>3</i>Nothing here blocks entry to the app; a record with a profile only is still a usable record.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="sec" id="screens-c">
+  <div class="eyebrow">03 — Screens · Group C</div>
+  <div class="prose">
+    <h2>The daily loop</h2>
+    <p class="lede">This is the part of the product you actually live in — thirty seconds a day, most days. The dashboard leads with what <em style="font-style:normal;color:var(--txt)">changed</em>, not with a wall of numbers, because a value you have seen unchanged for a week is not information. Every tile is a doorway into its own trend, and every trend has an "Ask Nadi about this" that carries the metric into chat as context.</p>
+  </div>
+
+  <div class="board">
+
+    <!-- C1 DASHBOARD -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Wednesday</div><div class="sub">26 August · 3 changes</div></div>
+          <div class="act">
+            <span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+            <span class="avatar">VL</span>
+          </div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="card tint">
+            <div class="ct"><span style="color:var(--jade)">Nadi · your morning read</span><span>06:10</span></div>
+            <div class="cb">Fasting glucose has run <b>8 mg/dL above</b> your 30-day average for four days, and it tracks with three short nights. Vitamin D from the 12 Aug panel is <b>still below range</b>. Everything else is steady.</div>
+            <div class="cites">
+              <span class="cite">Glucose · 4 readings</span>
+              <span class="cite">Sleep · Apple Health</span>
+              <span class="cite">Lab · 12 Aug</span>
+            </div>
+          </div>
+
+          <div class="tiles">
+            <div class="tile"><span class="sevbar watch"></span>
+              <div class="lb">Fasting glucose</div>
+              <div class="nm">112 <sup>mg/dL</sup></div>
+              <div class="dl"><span class="up">▲ 8</span> vs 30-day avg</div>
+              <svg class="sp" viewBox="0 0 104 26" aria-hidden="true">
+                <path d="M0,18 L13,16 L26,17 L39,14 L52,15 L65,12 L78,13 L91,11 L104,10 L104,26 L0,26 Z" fill="var(--watch-bg)"/>
+                <polyline points="0,18 13,16 26,17 39,14 52,15 65,12 78,13 91,11 104,10" fill="none" stroke="var(--watch)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="104" cy="10" r="2.2" fill="var(--watch)"/>
+              </svg>
+            </div>
+            <div class="tile"><span class="sevbar watch"></span>
+              <div class="lb">Sleep</div>
+              <div class="nm">6<sup>h</sup> 42<sup>m</sup></div>
+              <div class="dl"><span class="up">▼ 48m</span> vs target</div>
+              <svg class="sp" viewBox="0 0 104 26" aria-hidden="true">
+                <path d="M0,8 L13,10 L26,9 L39,13 L52,15 L65,12 L78,14 L91,16 L104,15 L104,26 L0,26 Z" fill="var(--watch-bg)"/>
+                <polyline points="0,8 13,10 26,9 39,13 52,15 65,12 78,14 91,16 104,15" fill="none" stroke="var(--watch)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="104" cy="15" r="2.2" fill="var(--watch)"/>
+              </svg>
+            </div>
+            <div class="tile"><span class="sevbar ok"></span>
+              <div class="lb">Steps</div>
+              <div class="nm">8,240</div>
+              <div class="dl"><span class="dn">▲ 620</span> vs weekday avg</div>
+              <svg class="sp" viewBox="0 0 104 26" aria-hidden="true">
+                <path d="M0,14 L13,10 L26,16 L39,12 L52,9 L65,13 L78,8 L91,11 L104,7 L104,26 L0,26 Z" fill="var(--ok-bg)"/>
+                <polyline points="0,14 13,10 26,16 39,12 52,9 65,13 78,8 91,11 104,7" fill="none" stroke="var(--ok)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="104" cy="7" r="2.2" fill="var(--ok)"/>
+              </svg>
+            </div>
+            <div class="tile"><span class="sevbar ok"></span>
+              <div class="lb">Blood pressure</div>
+              <div class="nm">128<sup>/82</sup></div>
+              <div class="dl">Logged 07:05 today</div>
+              <svg class="sp" viewBox="0 0 104 26" aria-hidden="true">
+                <path d="M0,12 L13,11 L26,13 L39,10 L52,12 L65,9 L78,11 L91,10 L104,11 L104,26 L0,26 Z" fill="var(--ok-bg)"/>
+                <polyline points="0,12 13,11 26,13 39,10 52,12 65,9 78,11 91,10 104,11" fill="none" stroke="var(--ok)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="104" cy="11" r="2.2" fill="var(--ok)"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="sectitle">Needs attention <a>See all 4</a></div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5"/></svg></span><div class="tx"><b>Vitamin D below range</b><small>24 ng/mL · ref 30–100 · 12 Aug</small></div><span class="pill low">Low</span></div>
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span><div class="tx"><b>A1c due in 9 days</b><small>Last 6.1% on 12 May · every 3 months</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+        </div>
+        <nav class="tabs">
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z"/></svg>Today</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Record</a>
+          <a class="nova"><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg></span>Nadi</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1Z"/></svg>Care</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Profile</a>
+        </nav>
+      </div></div>
+      <figcaption>
+        <div class="code">C1</div><div class="name">Today · dashboard</div>
+        <ul class="callouts">
+          <li><i>1</i><b>The morning read</b> is one Claude call per day against the last 30 days of your record, cached and regenerated only when new data lands. Every claim it makes carries a chip back to the source rows.</li>
+          <li><i>2</i>Tiles show a value, a comparison, and a 9-point sparkline. The left severity stripe repeats what the colour says, so status survives greyscale and colour blindness.</li>
+          <li><i>3</i>"Needs attention" is generated by deterministic rules — out-of-range labs, overdue screenings, missed doses — never by the model. The model explains; the rules decide.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- C2 METRIC DETAIL -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Fasting glucose</div><div class="sub">112 mg/dL · today 06:48</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 15v4h14v-4"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:11px">
+          <div class="seg"><span>7d</span><span class="on">30d</span><span>6m</span><span>1y</span><span>All</span></div>
+
+          <div class="card" style="padding:12px 10px 8px">
+            <svg viewBox="0 0 250 108" style="width:100%;height:112px;display:block" aria-label="Fasting glucose, 30 days">
+              <rect x="0" y="30" width="250" height="40" fill="var(--ok-bg)"/>
+              <text x="4" y="27" style="font-family:var(--f-mono);font-size:7px;fill:var(--txt-3)">130</text>
+              <text x="4" y="76" style="font-family:var(--f-mono);font-size:7px;fill:var(--txt-3)">80</text>
+              <text x="200" y="42" style="font-family:var(--f-mono);font-size:7px;fill:var(--ok)">TARGET BAND</text>
+              <line x1="0" y1="30" x2="250" y2="30" stroke="var(--line)" stroke-width=".6" stroke-dasharray="3 3"/>
+              <line x1="0" y1="70" x2="250" y2="70" stroke="var(--line)" stroke-width=".6" stroke-dasharray="3 3"/>
+              <path d="M0,58 L21,54 L42,60 L63,50 L84,52 L105,46 L126,49 L147,40 L168,44 L189,34 L210,38 L231,28 L250,24 L250,108 L0,108 Z" fill="var(--watch-bg)" opacity=".55"/>
+              <polyline points="0,58 21,54 42,60 63,50 84,52 105,46 126,49 147,40 168,44 189,34 210,38 231,28 250,24" fill="none" stroke="var(--watch)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="250" cy="24" r="3.2" fill="var(--watch)"/>
+              <circle cx="250" cy="24" r="6" fill="var(--watch)" opacity=".18"/>
+              <text x="6" y="102" style="font-family:var(--f-mono);font-size:7px;fill:var(--txt-3);letter-spacing:.1em">28 JUL</text>
+              <text x="216" y="102" style="font-family:var(--f-mono);font-size:7px;fill:var(--txt-3);letter-spacing:.1em">TODAY</text>
+            </svg>
+          </div>
+
+          <div style="display:flex;gap:8px">
+            <div class="card flat" style="flex:1;text-align:center;padding:9px 6px"><div class="lb" style="font-family:var(--f-mono);font-size:8px;letter-spacing:.12em;color:var(--txt-3);text-transform:uppercase">Average</div><div style="font-family:var(--f-mono);font-size:16px;font-weight:600;margin-top:3px">104</div></div>
+            <div class="card flat" style="flex:1;text-align:center;padding:9px 6px"><div class="lb" style="font-family:var(--f-mono);font-size:8px;letter-spacing:.12em;color:var(--txt-3);text-transform:uppercase">In band</div><div style="font-family:var(--f-mono);font-size:16px;font-weight:600;margin-top:3px">71%</div></div>
+            <div class="card flat" style="flex:1;text-align:center;padding:9px 6px"><div class="lb" style="font-family:var(--f-mono);font-size:8px;letter-spacing:.12em;color:var(--txt-3);text-transform:uppercase">Trend</div><div style="font-family:var(--f-mono);font-size:16px;font-weight:600;margin-top:3px;color:var(--watch)">↗ 6%</div></div>
+          </div>
+
+          <div class="card tint">
+            <div class="ct"><span style="color:var(--jade)">What Nadi sees here</span></div>
+            <div class="cb">The rise starts <b>23 Aug</b>, the same day your sleep dropped below 6½ hours. Metformin adherence was 100% across the window, so a missed dose does not explain it.</div>
+            <div class="cites"><span class="cite">Sleep · 23–26 Aug</span><span class="cite">Doses · 28 of 28</span></div>
+          </div>
+
+          <div class="sectitle">Readings</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><div class="tx"><b>Today · 06:48</b><small>Fasting · fingerstick</small></div><span class="val">112<small>mg/dL</small></span></div>
+            <div class="row"><div class="tx"><b>Yesterday · 06:40</b><small>Fasting · fingerstick</small></div><span class="val">109<small>mg/dL</small></span></div>
+          </div>
+          <div class="btn ghost" style="height:38px;font-size:12.5px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg>
+            Ask Nadi about this trend
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">C2</div><div class="name">Metric detail</div>
+        <ul class="callouts">
+          <li><i>1</i>The green band is <b>your</b> target range — from your lab's reference interval where one exists, from your clinician's note where you have entered one, otherwise from the population default, and the source is always stated on tap.</li>
+          <li><i>2</i>Statistics are computed in the database, not by the model, so the same query always returns the same three numbers.</li>
+          <li><i>3</i>The Ask-Nadi button opens chat pre-loaded with this metric and window as context, so the answer is about this chart rather than about glucose in general.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- C3 QUICK LOG -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="body" style="padding:0;justify-content:flex-end">
+          <div style="flex:1;background:var(--surface-2);opacity:.55"></div>
+          <div style="background:var(--surface);border-radius:22px 22px 0 0;padding:14px 16px 18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 -8px 30px -12px rgba(0,0,0,.35)">
+            <div style="width:34px;height:4px;border-radius:99px;background:var(--surface-3);margin:0 auto"></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <div style="font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.02em">Log a reading</div>
+              <div style="font-family:var(--f-mono);font-size:10px;color:var(--txt-3)">TODAY 09:41</div>
+            </div>
+            <div class="seg"><span class="on">Blood pressure</span><span>Glucose</span><span>Weight</span></div>
+            <div style="display:flex;gap:9px;align-items:flex-end">
+              <div class="field" style="flex:1"><span class="lab">Systolic</span><div class="inp focus" style="height:56px;justify-content:center;font-family:var(--f-mono);font-size:26px;font-weight:600;color:var(--txt)">128</div></div>
+              <div style="font-family:var(--f-mono);font-size:22px;color:var(--txt-3);padding-bottom:14px">/</div>
+              <div class="field" style="flex:1"><span class="lab">Diastolic</span><div class="inp" style="height:56px;justify-content:center;font-family:var(--f-mono);font-size:26px;font-weight:600;color:var(--txt)">82</div></div>
+              <div class="field" style="flex:1"><span class="lab">Pulse</span><div class="inp" style="height:56px;justify-content:center;font-family:var(--f-mono);font-size:26px;font-weight:600;color:var(--txt)">64</div></div>
+            </div>
+            <div class="card flat" style="display:flex;gap:9px;align-items:center;padding:9px 12px">
+              <span class="pill ok">Stage 1 · borderline</span>
+              <div style="font-size:11px;color:var(--txt-2);line-height:1.35">Within your usual range. Your 7-day average is 126/80.</div>
+            </div>
+            <div class="field"><span class="lab">Context <span style="text-transform:none;letter-spacing:0;color:var(--txt-3)">· optional</span></span>
+              <div class="sugg"><span>Before medication</span><span>After exercise</span><span>Seated, rested 5 min</span><span>Left arm</span></div>
+            </div>
+            <div style="display:flex;gap:9px">
+              <div class="btn ghost" style="flex:1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+                Scan device
+              </div>
+              <div class="btn" style="flex:1.4">Save reading</div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">C3</div><div class="name">Quick log</div>
+        <ul class="callouts">
+          <li><i>1</i>One sheet reached from the "＋" on any tab. Three taps from app open to saved reading — this is the screen that decides whether the record stays current.</li>
+          <li><i>2</i>Interpretation appears <b>as you type</b>, from local rules, so you learn what the number means without asking.</li>
+          <li><i>3</i>"Scan device" photographs a monitor's display and reads the digits with Claude vision — the same extraction path as documents, reviewed the same way.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- C4 TIMELINE -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Record</div><div class="sub">1,842 events · all sources</div></div>
+          <div class="act">
+            <span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+            <span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span>
+          </div>
+        </div>
+        <div class="body scrollfade" style="gap:11px">
+          <div style="display:flex;gap:6px;overflow:hidden">
+            <span class="pill jade" style="padding:5px 10px">All</span>
+            <span class="pill" style="padding:5px 10px">Labs</span>
+            <span class="pill" style="padding:5px 10px">Visits</span>
+            <span class="pill" style="padding:5px 10px">Meds</span>
+            <span class="pill" style="padding:5px 10px">Docs</span>
+          </div>
+          <div class="timeline">
+            <div class="tev"><div class="d">Today · 06:48</div><b>Fasting glucose 112 mg/dL</b><small>Logged manually · 4th consecutive reading above average</small></div>
+            <div class="tev"><div class="d">22 Aug · Fitbit</div><b>Sleep dropped below 6h 30m</b><small>Three-night run · deep sleep down 22%</small></div>
+            <div class="tev"><div class="d">12 Aug · Apollo Diagnostics</div><b>Comprehensive metabolic panel</b><small>14 markers · 2 outside range · imported from PDF</small></div>
+            <div class="tev mut"><div class="d">12 Aug · Document</div><b>Lab_Report_Aug2026.pdf</b><small>3 pages · 14 markers extracted, all confirmed by you</small></div>
+            <div class="tev"><div class="d">04 Aug · Dr. Meera Krishnan</div><b>Endocrinology follow-up</b><small>Metformin continued · A1c recheck in 3 months</small></div>
+            <div class="tev mut"><div class="d">28 Jul · Apple Health</div><b>218 days of activity imported</b><small>Steps, heart rate, sleep stages, workouts</small></div>
+            <div class="tev"><div class="d">12 May · Apollo Diagnostics</div><b>HbA1c 6.1%</b><small>Down from 6.4% in February</small></div>
+          </div>
+        </div>
+        <nav class="tabs">
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z"/></svg>Today</a>
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Record</a>
+          <a class="nova"><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg></span>Nadi</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1Z"/></svg>Care</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Profile</a>
+        </nav>
+      </div></div>
+      <figcaption>
+        <div class="code">C4</div><div class="name">Continuous timeline</div>
+        <ul class="callouts">
+          <li><i>1</i>Every source writes into one ordered stream — labs, wearables, documents, visits, doses. This is the "continuous" claim made literal, and it is the primary retrieval surface for Nadi.</li>
+          <li><i>2</i>Search is full-text across extracted document content and clinical notes, scoped to your record and filtered by the consent categories from B1.</li>
+          <li><i>3</i>Muted markers are ingestion events rather than health events, so importing a file never looks like something happened to your body.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- C5 CARE GAPS -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Care</div><div class="sub">2 due · 1 overdue · 4 up to date</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 5v14M5 12h14"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="seg"><span class="on">Screenings</span><span>Medications</span><span>Visits</span></div>
+
+          <div class="card" style="border-color:var(--high);position:relative;overflow:hidden">
+            <span class="sevbar high"></span>
+            <div class="ct" style="padding-left:6px"><span style="color:var(--high)">Overdue · 14 months</span><span>Every 12 mo</span></div>
+            <div style="padding-left:6px">
+              <div style="font-family:var(--f-display);font-weight:700;font-size:15.5px;margin-top:5px">Diabetic eye exam</div>
+              <div class="cb" style="margin-top:4px">Recommended annually with type 2 diabetes. Your last dilated exam was <b>June 2025</b>.</div>
+              <div class="cites"><span class="cite">ADA 2026 · Standards of Care</span><span class="cite">Your condition · E11.9</span></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><span class="btn sm">Find a clinic</span><span class="btn sm ghost">Mark as done</span></div>
+            </div>
+          </div>
+
+          <div class="sectitle">Due soon</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6l1 4h4v13H4V7h4l1-4Z"/></svg></span><div class="tx"><b>HbA1c</b><small>Due 4 Sep · every 3 months</small></div><span class="pill watch">9 days</span></div>
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c3 4 6 6.5 6 10a6 6 0 0 1-12 0c0-3.5 3-6 6-10Z"/></svg></span><div class="tx"><b>Lipid panel</b><small>Due 4 Sep · LDL was 118</small></div><span class="pill watch">9 days</span></div>
+          </div>
+
+          <div class="sectitle">Up to date</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg></span><div class="tx"><b>Colonoscopy</b><small>Next due 2033 · age 45+ baseline</small></div><span class="pill ok">Done</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg></span><div class="tx"><b>Foot exam</b><small>Done 4 Aug at endocrinology visit</small></div><span class="pill ok">Done</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg></span><div class="tx"><b>Influenza vaccine</b><small>Next due Oct 2026</small></div><span class="pill ok">Done</span></div>
+          </div>
+          <div style="font-size:10.5px;color:var(--txt-3);line-height:1.5">Recommendations follow published guidelines for your age, sex and conditions. They are a prompt for a conversation with your clinician, not a diagnosis.</div>
+        </div>
+        <nav class="tabs">
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z"/></svg>Today</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Record</a>
+          <a class="nova"><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg></span>Nadi</a>
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1Z"/></svg>Care</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Profile</a>
+        </nav>
+      </div></div>
+      <figcaption>
+        <div class="code">C5</div><div class="name">Care gaps &amp; screenings</div>
+        <ul class="callouts">
+          <li><i>1</i>This is the deck's "care-gap engine", built as a <b>rules table</b>: each rule states a guideline source, the population it applies to, an interval, and the record query that satisfies it.</li>
+          <li><i>2</i>Because it is deterministic, every recommendation can show its source and why it applies to you — and it cannot invent a screening that does not exist.</li>
+          <li><i>3</i>Claude's role here is narrow and useful: turning the matched rule into plain language and answering follow-ups about it.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="sec" id="screens-d">
+  <div class="eyebrow">03 — Screens · Group D</div>
+  <div class="prose">
+    <h2>Nadi — the part that has to be trustworthy</h2>
+    <p class="lede">A health chatbot that answers confidently from nothing is worse than no chatbot. The design rule for Nadi is absolute: <b>every factual sentence carries a citation to a row in your record, and a question the record cannot answer gets "I don't have that" instead of a guess.</b> The grounding drawer exists so you can audit any answer in two taps, and the visit-prep report is what turns all of this into fifteen useful minutes with your doctor.</p>
+  </div>
+
+  <div class="board">
+
+    <!-- D1 CHAT -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(150deg,var(--jade),var(--jade-deep));display:grid;place-items:center;color:#fff;flex:none">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg>
+            </span>
+            <div><div class="t" style="font-size:18px">Nadi</div><div class="sub" style="margin-top:1px">Reading 1,842 events</div></div>
+          </div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 5v14M5 12h14"/></svg></span></div>
+        </div>
+        <div class="body" style="gap:9px">
+          <div class="chat">
+            <div class="msg me">Why has my morning sugar been high this week?</div>
+            <div class="msg ai">
+              Four fasting readings since 23 August: <b>108, 109, 114, 112 mg/dL</b> — an average of 111 against your 30-day average of 103.<br><br>
+              Two things line up with it. Your sleep fell to <b>6h 12m, 6h 05m and 6h 42m</b> on the same nights, and short sleep raises fasting glucose through morning cortisol. Your evening carbohydrate intake also rose about 40&nbsp;g on 22–24 August.<br><br>
+              What does <em>not</em> explain it: you took all 28 metformin doses in the window, and your weight is unchanged.
+              <div class="cites">
+                <span class="cite">Glucose · 4 readings</span>
+                <span class="cite">Sleep · Fitbit</span>
+                <span class="cite">Nutrition · 3 days</span>
+                <span class="cite">Doses · 28/28</span>
+              </div>
+            </div>
+            <div class="msg me" style="max-width:70%">Should I change my metformin?</div>
+            <div class="msg ai">
+              That is a decision for Dr. Krishnan — dose changes are outside what I can advise on.<br><br>
+              What I can do is have this ready for her: your A1c went <b>6.4 → 6.1%</b> between February and May, this fasting run is 4 days old, and your next A1c is due 4 September.
+              <div class="cites"><span class="cite">A1c · 2 results</span><span class="cite">Care gap · A1c due</span></div>
+              <div style="display:flex;gap:6px;margin-top:9px"><span class="btn sm" style="height:30px;font-size:11.5px">Build visit-prep note</span></div>
+            </div>
+          </div>
+          <div class="sugg" style="flex:none">
+            <span>What screenings am I due?</span>
+            <span>Explain my last panel</span>
+          </div>
+          <div class="composer">
+            <div class="inp"><span class="ph">Ask about your health…</span>
+              <svg style="margin-left:auto;width:15px;height:15px;color:var(--txt-3)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+            <div class="sendbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+          </div>
+        </div>
+        <nav class="tabs">
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z"/></svg>Today</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Record</a>
+          <a class="nova"><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg></span>Nadi</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1Z"/></svg>Care</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Profile</a>
+        </nav>
+      </div></div>
+      <figcaption>
+        <div class="code">D1</div><div class="name">Ask Nadi</div>
+        <ul class="callouts">
+          <li><i>1</i>Answers stream token by token with the citation chips appearing as each supporting query resolves — you watch it consult the record rather than waiting on a spinner.</li>
+          <li><i>2</i><b>Scope refusal is a designed feature</b>, not a failure state: dosing, diagnosis and emergency triage are declined explicitly, and the decline still hands you something useful.</li>
+          <li><i>3</i>Claude reaches the record only through defined tools — <code>get_labs</code>, <code>get_series</code>, <code>search_documents</code>, <code>get_profile</code>, <code>get_medications</code> — each already scoped to your user id, so there is no path to another person's data.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- D2 GROUNDING DRAWER -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="body" style="padding:0;justify-content:flex-end">
+          <div style="flex:.55;background:var(--surface-2);opacity:.55"></div>
+          <div style="background:var(--surface);border-radius:22px 22px 0 0;padding:14px 16px 18px;display:flex;flex-direction:column;gap:11px;flex:1.45;box-shadow:0 -8px 30px -12px rgba(0,0,0,.35)">
+            <div style="width:34px;height:4px;border-radius:99px;background:var(--surface-3);margin:0 auto"></div>
+            <div>
+              <div style="font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.02em">What Nadi read</div>
+              <div style="font-size:11.5px;color:var(--txt-2);margin-top:3px;line-height:1.45">Four queries against your record. Nothing else was sent.</div>
+            </div>
+
+            <div class="card" style="padding:2px 13px">
+              <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6l1 4h4v13H4V7h4l1-4Z"/></svg></span><div class="tx"><b>get_series · glucose_fasting</b><small>23–26 Aug · 4 rows returned</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+              <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div class="tx"><b>get_series · sleep_duration</b><small>23–26 Aug · Fitbit · 4 rows</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+              <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h14v18l-7-4-7 4V3Z"/></svg></span><div class="tx"><b>get_medications · adherence</b><small>Metformin · 28 of 28 doses</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+              <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v6H4zM4 14h16v6H4z"/></svg></span><div class="tx"><b>get_series · nutrition_carbs</b><small>22–24 Aug · 3 rows</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            </div>
+
+            <div class="sectitle">Sent to Claude</div>
+            <div class="card flat" style="font-family:var(--f-mono);font-size:10px;line-height:1.7;color:var(--txt-2)">
+              <div><span style="color:var(--txt-3)">subject:</span> 52y male · T2DM · HTN</div>
+              <div><span style="color:var(--txt-3)">glucose:</span> [108,109,114,112] mg/dL</div>
+              <div><span style="color:var(--txt-3)">sleep_h:</span> [6.20,6.08,6.70,7.05]</div>
+              <div><span style="color:var(--txt-3)">adherence:</span> 28/28</div>
+              <div style="color:var(--jade)">name · email · address · IDs — not sent</div>
+            </div>
+
+            <div class="card tint" style="display:flex;gap:9px;align-items:flex-start">
+              <svg style="width:15px;height:15px;color:var(--jade);flex:none;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+              <div style="font-size:11px;color:var(--txt-2);line-height:1.5">This exchange is logged in your audit trail and never used to train a model. Delete the conversation and the log entry stays — that is the point of an audit trail.</div>
+            </div>
+            <div class="btn ghost" style="height:38px;font-size:12.5px">Close</div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">D2</div><div class="name">Grounding drawer</div>
+        <ul class="callouts">
+          <li><i>1</i>Reached by tapping any citation chip, or "What Nadi read" under any answer. It lists the exact tool calls, their arguments, and the row counts returned.</li>
+          <li><i>2</i>The "sent to Claude" block is the literal payload after de-identification — this is the screen that answers "so what actually leaves my phone?" honestly.</li>
+          <li><i>3</i>Tapping any query opens the underlying rows in Record, so a claim can always be traced to data you can see.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- D3 VISIT PREP -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Visit prep</div><div class="sub">Dr. Meera Krishnan · 4 Sep</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 15v4h14v-4"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="card tint">
+            <div class="ct"><span style="color:var(--jade)">Since your last visit · 4 Aug</span></div>
+            <div class="cb">A1c is not yet rechecked. Fasting glucose is up ~8 mg/dL over four days alongside short sleep. Vitamin D remains below range on supplementation. Blood pressure is stable.</div>
+          </div>
+
+          <div class="sectitle">Ask about <a>Edit</a></div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j" style="font-family:var(--f-mono);font-size:11px;font-weight:600">1</span><div class="tx"><b>Is the fasting rise worth acting on?</b><small>4 readings, 4 days, sleep-linked</small></div></div>
+            <div class="row"><span class="ic j" style="font-family:var(--f-mono);font-size:11px;font-weight:600">2</span><div class="tx"><b>Vitamin D still 24 on 2000 IU daily</b><small>Down from 31 in February</small></div></div>
+            <div class="row"><span class="ic j" style="font-family:var(--f-mono);font-size:11px;font-weight:600">3</span><div class="tx"><b>Diabetic eye exam is 14 months overdue</b><small>Referral needed</small></div></div>
+          </div>
+
+          <div class="sectitle">Attached</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>Glucose &amp; sleep, 30 days</b><small>Chart · 1 page</small></div><span class="pill jade">Included</span></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8"/></svg></span><div class="tx"><b>Metabolic panel · 12 Aug</b><small>14 markers, 2 flagged</small></div><span class="pill jade">Included</span></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/></svg></span><div class="tx"><b>Current medications</b><small>3 active · adherence 96%</small></div><span class="pill jade">Included</span></div>
+          </div>
+
+          <div class="card warn" style="display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:15px;height:15px;color:var(--watch);flex:none;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/></svg>
+            <div style="font-size:11px;color:var(--txt-2);line-height:1.5">Sharing creates a link that expires in <b>7 days</b>, opens read-only, and is revocable. Every open is recorded in your audit log.</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <div class="btn ghost" style="flex:1;height:40px;font-size:12.5px">Save PDF</div>
+            <div class="btn" style="flex:1.3;height:40px;font-size:12.5px">Create share link</div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">D3</div><div class="name">Visit-prep report</div>
+        <ul class="callouts">
+          <li><i>1</i>Generated from the interval since your last recorded visit, so it is always "what changed since we last spoke" — the one summary a fifteen-minute appointment can actually use.</li>
+          <li><i>2</i>You edit the questions before it is built; Nadi drafts, you decide what is on the page.</li>
+          <li><i>3</i>Share links are signed, single-purpose, time-boxed and revocable — the only route by which any data leaves your account, and it is entirely under your control.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="sec" id="screens-e">
+  <div class="eyebrow">03 — Screens · Group E</div>
+  <div class="prose">
+    <h2>Getting data in</h2>
+    <p class="lede">Every health app dies at the ingestion step. Aayu's answer is that <em style="font-style:normal;color:var(--txt)">a photograph of a lab report is a first-class input</em> — Claude reads the page, proposes structured markers with its confidence and the exact text it read them from, and you confirm before anything is written. Automatic where a connector exists, photographable where it does not, and never silently wrong.</p>
+  </div>
+
+  <div class="board">
+
+    <!-- E1 DOCUMENTS -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Documents</div><div class="sub">38 files · 412 markers extracted</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="doc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 4v11M8 8l4-4 4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+            <div style="font-size:12.5px;font-weight:600">Add a document</div>
+            <small>Photograph a report, or drop a PDF, JPEG,<br>HEIC or DICOM file. 25 MB max.</small>
+            <div style="display:flex;gap:7px;margin-top:3px"><span class="btn sm">Take photo</span><span class="btn sm ghost">Choose file</span></div>
+          </div>
+
+          <div class="sectitle">Processing</div>
+          <div class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+              <span class="ic j" style="width:32px;height:32px;border-radius:9px;background:var(--jade-mist);color:var(--jade);display:grid;place-items:center;flex:none">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg></span>
+              <div style="flex:1"><b style="font-size:12.5px">Thyroid_panel_Aug26.pdf</b><div style="font-size:11px;color:var(--txt-3)">Reading page 2 of 3 · 6 markers so far</div></div>
+            </div>
+            <div class="prog" style="margin-top:9px"><i style="width:64%"></i></div>
+          </div>
+
+          <div class="sectitle">Library <a>Filter</a></div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><div class="tx"><b>Metabolic panel · Apollo</b><small>12 Aug · 14 markers · 2 flagged</small></div><span class="pill ok">Confirmed</span></div>
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8"/></svg></span><div class="tx"><b>Discharge summary</b><small>19 Jun · 3 pages · 2 values need review</small></div><span class="pill watch">Review</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m4 18 5-4 4 3 3-2 4 3"/></svg></span><div class="tx"><b>Chest X-ray · report + image</b><small>02 Apr · impression extracted</small></div><span class="pill ok">Confirmed</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8"/></svg></span><div class="tx"><b>Lipid panel · Apollo</b><small>12 May · 6 markers · LDL 118</small></div><span class="pill ok">Confirmed</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8"/></svg></span><div class="tx"><b>Eye exam report</b><small>14 Jun 2025 · photo · no retinopathy</small></div><span class="pill ok">Confirmed</span></div>
+          </div>
+        </div>
+        <nav class="tabs">
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z"/></svg>Today</a>
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Record</a>
+          <a class="nova"><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg></span>Nadi</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1Z"/></svg>Care</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Profile</a>
+        </nav>
+      </div></div>
+      <figcaption>
+        <div class="code">E1</div><div class="name">Document library</div>
+        <ul class="callouts">
+          <li><i>1</i>Files are encrypted before they touch storage and served only through short-lived signed URLs bound to your session.</li>
+          <li><i>2</i>Documents carry a status — processing, needs review, confirmed — so a half-read report is never quietly treated as fact.</li>
+          <li><i>3</i>The original file is always kept alongside the extracted values, and any marker can jump back to the page and region it came from.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- E2 EXTRACTION REVIEW -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Confirm 14 markers</div><div class="sub">Metabolic panel · 12 Aug</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="card flat" style="display:flex;gap:10px;align-items:center;padding:9px 12px">
+            <div style="width:42px;height:52px;border-radius:6px;background:var(--surface);border:1px solid var(--line);flex:none;padding:5px;display:flex;flex-direction:column;gap:2.5px;overflow:hidden">
+              <div style="height:2px;background:var(--line);width:70%"></div><div style="height:2px;background:var(--line)"></div>
+              <div style="height:2px;background:var(--jade);width:85%"></div><div style="height:2px;background:var(--line)"></div>
+              <div style="height:2px;background:var(--line);width:60%"></div><div style="height:2px;background:var(--jade);width:75%"></div>
+              <div style="height:2px;background:var(--line)"></div><div style="height:2px;background:var(--line);width:45%"></div>
+            </div>
+            <div style="flex:1"><b style="font-size:12px">Lab_Report_Aug2026.pdf</b>
+              <div style="font-size:11px;color:var(--txt-3);line-height:1.4">3 pages · Apollo Diagnostics<br>Collected 12 Aug 08:20</div></div>
+            <span class="btn sm ghost" style="height:28px;font-size:11px">View</span>
+          </div>
+
+          <div class="sectitle">Needs your eye <span class="pill watch">2</span></div>
+          <div class="card" style="border-color:var(--watch)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+              <div><b style="font-size:12.5px">Vitamin D, 25-OH</b>
+                <div style="font-size:10.5px;color:var(--txt-3);margin-top:2px">Read as “24.0 ng/mL” · confidence 71%</div></div>
+              <span class="pill low">Low</span>
+            </div>
+            <div class="card flat" style="margin-top:8px;padding:7px 9px;font-family:var(--f-mono);font-size:10px;color:var(--txt-2);line-height:1.5">
+              “VITAMIN D (25-OH) &nbsp;&nbsp;24.0 &nbsp;ng/mL &nbsp;30–100”
+            </div>
+            <div style="display:flex;gap:7px;align-items:center;margin-top:9px">
+              <div class="inp" style="flex:1;height:36px;font-family:var(--f-mono);color:var(--txt)">24.0 ng/mL</div>
+              <span class="btn sm" style="height:36px">Confirm</span>
+            </div>
+          </div>
+
+          <div class="sectitle">Read cleanly <span class="pill ok">12</span></div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><div class="tx"><b>HbA1c</b><small>ref 4.0–5.6 %</small></div><span class="val" style="color:var(--watch)">6.1<small>%</small></span></div>
+            <div class="row"><div class="tx"><b>Fasting glucose</b><small>ref 70–99 mg/dL</small></div><span class="val" style="color:var(--watch)">106<small>mg/dL</small></span></div>
+            <div class="row"><div class="tx"><b>LDL cholesterol</b><small>ref &lt; 100 mg/dL</small></div><span class="val" style="color:var(--watch)">118<small>mg/dL</small></span></div>
+            <div class="row"><div class="tx"><b>Creatinine</b><small>ref 0.7–1.3 mg/dL</small></div><span class="val">0.9<small>mg/dL</small></span></div>
+            <div class="row"><div class="tx"><b>eGFR</b><small>ref &gt; 60</small></div><span class="val">92</span></div>
+            <div class="row"><div class="tx"><b>ALT</b><small>ref 7–56 U/L</small></div><span class="val">28<small>U/L</small></span></div>
+          </div>
+        </div>
+        <div style="flex:none;padding:10px 16px 14px;border-top:1px solid var(--line-soft);display:flex;gap:8px;background:var(--surface)">
+          <div class="btn ghost" style="flex:1;height:40px;font-size:12.5px">Discard</div>
+          <div class="btn" style="flex:1.6;height:40px;font-size:12.5px">Save 14 markers</div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">E2</div><div class="name">Extraction review</div>
+        <ul class="callouts">
+          <li><i>1</i>Claude returns strict JSON — marker, value, unit, reference range, collection date, confidence, and the verbatim source line — validated against a schema before it renders.</li>
+          <li><i>2</i>Anything under a confidence threshold, or any value that would be a clinical outlier, is promoted to "needs your eye" with the source text beside it.</li>
+          <li><i>3</i>Marker names are normalised to LOINC where possible, so a panel from a different lab still lands on the same trend line.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- E3 LABS -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Labs</div><div class="sub">62 markers · 9 panels · since 2019</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="seg"><span class="on">Flagged</span><span>All markers</span><span>By panel</span></div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div><b style="font-size:13px">Vitamin D, 25-OH</b><div style="font-size:10.5px;color:var(--txt-3)">12 Aug · Apollo Diagnostics</div></div>
+              <div style="text-align:right"><div style="font-family:var(--f-mono);font-size:20px;font-weight:600;color:var(--low)">24<span style="font-size:10px;color:var(--txt-3)"> ng/mL</span></div></div>
+            </div>
+            <svg viewBox="0 0 240 26" style="width:100%;height:26px;margin-top:9px;display:block">
+              <rect x="0" y="10" width="240" height="7" rx="3.5" fill="var(--low-bg)"/>
+              <rect x="72" y="10" width="132" height="7" rx="3.5" fill="var(--ok-bg)"/>
+              <rect x="204" y="10" width="36" height="7" rx="3.5" fill="var(--high-bg)"/>
+              <circle cx="55" cy="13.5" r="5" fill="var(--low)"/>
+              <text x="0" y="26" style="font-family:var(--f-mono);font-size:7px;fill:var(--txt-3)">0</text>
+              <text x="66" y="26" style="font-family:var(--f-mono);font-size:7px;fill:var(--txt-3)">30</text>
+              <text x="196" y="26" style="font-family:var(--f-mono);font-size:7px;fill:var(--txt-3)">100</text>
+              <text x="40" y="7" style="font-family:var(--f-mono);font-size:7px;fill:var(--low)">YOU</text>
+            </svg>
+            <div class="cb" style="margin-top:6px">Below range at every reading since November, despite 2000 IU daily since March.</div>
+          </div>
+
+          <div class="sectitle">Also outside range</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>LDL cholesterol</b><small>ref &lt; 100 · was 124 in May</small></div><span class="val" style="color:var(--watch)">118<small>mg/dL</small></span></div>
+            <div class="row"><span class="ic w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>HbA1c</b><small>ref &lt; 5.7 · target &lt; 7.0 with T2DM</small></div><span class="val" style="color:var(--watch)">6.1<small>%</small></span></div>
+          </div>
+
+          <div class="sectitle">Tracked over time <a>See all 62</a></div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><div class="tx"><b>HbA1c</b><small>9 results · 2019 – 2026</small></div>
+              <svg width="62" height="22" viewBox="0 0 62 22" style="flex:none"><polyline points="0,4 12,6 24,5 36,9 48,12 62,14" fill="none" stroke="var(--ok)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="14" r="2.2" fill="var(--ok)"/></svg>
+              <span class="val">6.1</span></div>
+            <div class="row"><div class="tx"><b>eGFR</b><small>7 results · stable</small></div>
+              <svg width="62" height="22" viewBox="0 0 62 22" style="flex:none"><polyline points="0,8 12,7 24,9 36,7 48,8 62,7" fill="none" stroke="var(--ok)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="7" r="2.2" fill="var(--ok)"/></svg>
+              <span class="val">92</span></div>
+            <div class="row"><div class="tx"><b>Triglycerides</b><small>6 results · improving</small></div>
+              <svg width="62" height="22" viewBox="0 0 62 22" style="flex:none"><polyline points="0,3 12,6 24,5 36,10 48,11 62,14" fill="none" stroke="var(--ok)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="14" r="2.2" fill="var(--ok)"/></svg>
+              <span class="val">128</span></div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">E3</div><div class="name">Labs &amp; biomarkers</div>
+        <ul class="callouts">
+          <li><i>1</i>The range bar puts your value in position against the reference interval — the number and the picture say the same thing, so neither has to be trusted alone.</li>
+          <li><i>2</i>Where a condition changes the target (A1c under 7.0 with diabetes rather than under 5.7), both the population range and your applicable target are shown.</li>
+          <li><i>3</i>Results from different labs with different units are normalised on ingest; the original value and unit are preserved and shown on the marker's detail.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- E4 EHR CONNECT -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Connected sources</div><div class="sub">3 connected · last sync 06:04</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 5v14M5 12h14"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+              <span class="ic j" style="width:34px;height:34px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6l1 4h4v13H4V7h4l1-4Z"/><path d="M9 13h6M12 10v6"/></svg></span>
+              <div style="flex:1"><b style="font-size:12.5px">Apollo Hospitals</b><div style="font-size:10.5px;color:var(--txt-3)">SMART on FHIR R4 · read-only</div></div>
+              <span class="pill ok">Live</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-top:10px">
+              <div class="kv" style="border:0;padding:3px 0"><span>Encounters</span><b>24</b></div>
+              <div class="kv" style="border:0;padding:3px 0"><span>Lab results</span><b>186</b></div>
+              <div class="kv" style="border:0;padding:3px 0"><span>Medications</span><b>7</b></div>
+              <div class="kv" style="border:0;padding:3px 0"><span>Notes</span><b>19</b></div>
+            </div>
+            <div style="display:flex;gap:7px;margin-top:9px"><span class="btn sm ghost" style="height:30px;font-size:11.5px">Sync now</span><span class="btn sm ghost" style="height:30px;font-size:11.5px;color:var(--high)">Disconnect</span></div>
+          </div>
+
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l3 2"/><path d="M8 2h8M8 22h8"/></svg></span><div class="tx"><b>Apple Health</b><small>Steps, sleep, HR, HRV · 218 days</small></div><span class="pill ok">Live</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>Fitbit</b><small>Sleep stages, SpO₂ · 94 days</small></div><span class="pill ok">Live</span></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 12h8"/></svg></span><div class="tx"><b>MyFitnessPal</b><small>Nutrition · token expired 4 Aug</small></div><span class="pill watch">Reconnect</span></div>
+          </div>
+
+          <div class="sectitle">Add a source</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span><div class="tx"><b>Find your health system</b><small>Search 12,000+ US &amp; EU providers</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v3h16v-3"/></svg></span><div class="tx"><b>Import a file</b><small>FHIR bundle, Apple Health zip, CSV</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+
+          <div class="card flat" style="display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:15px;height:15px;color:var(--jade);flex:none;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/></svg>
+            <div style="font-size:11px;color:var(--txt-2);line-height:1.5">Every connection is read-only and revocable. Disconnecting asks whether to keep or erase the records that source brought in.</div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">E4</div><div class="name">EHR &amp; connected sources</div>
+        <ul class="callouts">
+          <li><i>1</i>Provider connections use SMART on FHIR through an aggregator; the design keeps the aggregator swappable, and file import is always available as the zero-dependency path.</li>
+          <li><i>2</i>Incoming FHIR resources are mapped onto the same internal observation model as manual entries, which is why one timeline can hold all of it.</li>
+          <li><i>3</i>Duplicate detection runs on ingest — the same A1c arriving from a PDF and from FHIR becomes one result with two provenance records, not two data points.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="sec" id="screens-f">
+  <div class="eyebrow">03 — Screens · Group F</div>
+  <div class="prose">
+    <h2>Managing the record</h2>
+    <p class="lede">Medications, the profile that only you can supply, and the three security screens that decide whether any of this is safe to keep. The security surfaces are not buried in a settings list — they are a destination with their own home, because in a product holding a complete medical record they are a feature, not an obligation.</p>
+  </div>
+
+  <div class="board">
+
+    <!-- F1 MEDICATIONS -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div><div class="t">Medications</div><div class="sub">3 active · 96% taken this month</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 5v14M5 12h14"/></svg></span></div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="card tint">
+            <div class="ct"><span style="color:var(--jade)">Today</span><span>2 of 4 taken</span></div>
+            <div style="display:flex;gap:7px;margin-top:9px">
+              <div style="flex:1;text-align:center;padding:8px 4px;border-radius:9px;background:var(--surface)">
+                <div style="font-family:var(--f-mono);font-size:9px;color:var(--txt-3);letter-spacing:.1em">07:00</div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2.4" style="margin-top:4px"><path d="m5 13 4 4L19 7"/></svg>
+              </div>
+              <div style="flex:1;text-align:center;padding:8px 4px;border-radius:9px;background:var(--surface)">
+                <div style="font-family:var(--f-mono);font-size:9px;color:var(--txt-3);letter-spacing:.1em">08:00</div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2.4" style="margin-top:4px"><path d="m5 13 4 4L19 7"/></svg>
+              </div>
+              <div style="flex:1;text-align:center;padding:8px 4px;border-radius:9px;background:var(--surface);border:1px solid var(--jade)">
+                <div style="font-family:var(--f-mono);font-size:9px;color:var(--jade);letter-spacing:.1em">20:00</div>
+                <div style="font-size:9.5px;color:var(--jade);margin-top:5px;font-weight:600">Due</div>
+              </div>
+              <div style="flex:1;text-align:center;padding:8px 4px;border-radius:9px;background:var(--surface);opacity:.55">
+                <div style="font-family:var(--f-mono);font-size:9px;color:var(--txt-3);letter-spacing:.1em">22:00</div>
+                <div style="font-size:9.5px;color:var(--txt-3);margin-top:5px">Later</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/><path d="M9 9 15 15"/></svg></span><div class="tx"><b>Metformin 1000 mg</b><small>Twice daily with food · 24 left</small></div><span class="pill ok">96%</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/><path d="M9 9 15 15"/></svg></span><div class="tx"><b>Telmisartan 40 mg</b><small>Morning · 6 days left</small></div><span class="pill watch">Refill</span></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/><path d="M9 9 15 15"/></svg></span><div class="tx"><b>Vitamin D3 2000 IU</b><small>Daily · 88% this month</small></div><span class="pill ok">88%</span></div>
+          </div>
+
+          <div class="sectitle">Checks</div>
+          <div class="card warn" style="display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:15px;height:15px;color:var(--watch);flex:none;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v5M12 17.5v.5"/><circle cx="12" cy="12" r="9"/></svg>
+            <div style="font-size:11.5px;color:var(--txt-2);line-height:1.5"><b style="color:var(--txt)">Allergy match.</b> You are recorded as allergic to sulfa drugs. Nothing you take now contains one — this check runs on every medication you add.</div>
+          </div>
+          <div class="card flat" style="display:flex;gap:9px;align-items:flex-start">
+            <svg style="width:15px;height:15px;color:var(--jade);flex:none;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg>
+            <div style="font-size:11.5px;color:var(--txt-2);line-height:1.5"><b style="color:var(--txt)">No known interactions</b> among your 3 active medications. Last checked when Vitamin D3 was added, 2 Mar.</div>
+          </div>
+
+          <div class="sectitle">Adherence · 30 days</div>
+          <div class="card" style="padding:12px 13px">
+            <div style="display:grid;grid-template-columns:repeat(15,1fr);gap:3px">
+              <i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--watch)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--watch)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i>
+              <i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--ok)"></i><i style="height:14px;border-radius:3px;background:var(--surface-3)"></i><i style="height:14px;border-radius:3px;background:var(--surface-3)"></i>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">F1</div><div class="name">Medications &amp; adherence</div>
+        <ul class="callouts">
+          <li><i>1</i>Adherence is captured with one tap from the notification, and it is the input that lets Nadi rule causes <em>out</em> — as it does in D1.</li>
+          <li><i>2</i>Interaction and allergy checks run against a local RxNorm/DrugBank-derived table on every addition, deterministically. The model never decides whether two drugs interact.</li>
+          <li><i>3</i>Refill projections come from dose schedule and quantity dispensed, so "6 days left" needs no pharmacy integration to be true.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- F2 PROFILE HUB -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="avatar" style="width:38px;height:38px;font-size:13px">VL</span>
+            <div><div class="t" style="font-size:18px">Vellayan L</div><div class="sub" style="margin-top:1px">52 · Male · O+ · 175 cm</div></div>
+          </div>
+        </div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="card tint">
+            <div class="ct"><span style="color:var(--jade)">Profile completeness</span><span>84%</span></div>
+            <div class="prog" style="margin-top:8px"><i style="width:84%"></i></div>
+            <div class="cb" style="margin-top:7px">Add <b>family history for your father</b> to sharpen cardiac screening timing.</div>
+          </div>
+
+          <div class="sectitle">Your record</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></span><div class="tx"><b>Personal &amp; biometrics</b><small>DOB, sex, height, weight, blood type</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c3 4 6 6.5 6 10a6 6 0 0 1-12 0c0-3.5 3-6 6-10Z"/></svg></span><div class="tx"><b>Conditions</b><small>2 active · type 2 diabetes, hypertension</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-40 12 12)"/></svg></span><div class="tx"><b>Allergies &amp; medications</b><small>1 allergy · 3 active medications</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><path d="M12 12v3M7 10v2h10v-2M9 20h6"/></svg></span><div class="tx"><b>Family history</b><small>3 of 4 relatives recorded</small></div><span class="pill watch">1 left</span></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div class="tx"><b>Women's &amp; reproductive health</b><small>Not applicable · hidden</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><div class="tx"><b>Lifestyle</b><small>Non-smoker · 3 workouts/week · vegetarian</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></span><div class="tx"><b>Goals</b><small>A1c under 6.0 · 7h sleep · 10k steps</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+
+          <div class="sectitle">Account</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/></svg></span><div class="tx"><b>Security &amp; privacy</b><small>2FA on · 2 devices · encryption active</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 12h8"/></svg></span><div class="tx"><b>Units, language &amp; notifications</b><small>Metric · English · 4 reminders</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+        </div>
+        <nav class="tabs">
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z"/></svg>Today</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Record</a>
+          <a class="nova"><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.1 5.5L20 9.4l-4 4.1.9 5.8-4.9-2.8-4.9 2.8.9-5.8-4-4.1 5.9-.9L12 3Z"/></svg></span>Nadi</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1Z"/></svg>Care</a>
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>Profile</a>
+        </nav>
+      </div></div>
+      <figcaption>
+        <div class="code">F2</div><div class="name">Health profile</div>
+        <ul class="callouts">
+          <li><i>1</i>This is the deck's "what only you know" pillar, and it is the highest-leverage data in the product — it changes which reference ranges, which screening rules, and which explanations apply.</li>
+          <li><i>2</i>Completeness is framed as a specific next action with a stated benefit, never as a nagging percentage on its own.</li>
+          <li><i>3</i>Sections that do not apply collapse rather than disappear, so the record stays honest about what it is not tracking.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- F3 SECURITY CENTRE -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">Security &amp; privacy</div><div class="sub">Last reviewed 2 Aug</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></span></div></div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="card tint" style="display:flex;gap:11px;align-items:center">
+            <svg style="width:26px;height:26px;color:var(--jade);flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9.6 4.6-1 8-4.6 8-9.6V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div><div style="font-family:var(--f-display);font-weight:700;font-size:15px">Everything is protected</div>
+              <div style="font-size:11px;color:var(--txt-2);line-height:1.45;margin-top:2px">2FA on · encryption active · no unrecognised sign-ins</div></div>
+          </div>
+
+          <div class="sectitle">Access</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><div class="tx"><b>Two-factor authentication</b><small>Authenticator app · 8 recovery codes left</small></div><div class="toggle on"></div></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/></svg></span><div class="tx"><b>Face ID &amp; app lock</b><small>Locks after 2 minutes</small></div><div class="toggle on"></div></div>
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span><div class="tx"><b>Alert on new device</b><small>Email + push, immediately</small></div><div class="toggle on"></div></div>
+          </div>
+
+          <div class="sectitle">Devices <a>Sign out all</a></div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><div class="tx"><b>iPhone 15 · this device</b><small>Chennai · active now</small></div><span class="pill ok">Trusted</span></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg></span><div class="tx"><b>MacBook Pro · Safari</b><small>Chennai · 2 days ago</small></div><span class="btn sm ghost" style="height:26px;font-size:10.5px">Revoke</span></div>
+          </div>
+
+          <div class="sectitle">What Nadi may read</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><div class="tx"><b>Labs, vitals &amp; wearables</b><small>Consented 12 Jul</small></div><div class="toggle on"></div></div>
+            <div class="row"><div class="tx"><b>Documents &amp; clinical notes</b><small>Consented 12 Jul</small></div><div class="toggle on"></div></div>
+            <div class="row"><div class="tx"><b>Reproductive health</b><small>Never enabled</small></div><div class="toggle"></div></div>
+          </div>
+
+          <div class="sectitle">Encryption</div>
+          <div class="card flat">
+            <div class="kv"><span>Record encryption</span><b style="color:var(--ok)">AES-256-GCM</b></div>
+            <div class="kv"><span>Key derivation</span><b>Argon2id</b></div>
+            <div class="kv"><span>Key last rotated</span><b>12 Jul 2026</b></div>
+            <div class="kv"><span>Transport</span><b>TLS 1.3 · HSTS</b></div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">F3</div><div class="name">Security centre</div>
+        <ul class="callouts">
+          <li><i>1</i>State first, controls second: the top card answers "am I safe?" before you read a single toggle, and it turns amber the moment any protection is off.</li>
+          <li><i>2</i>Consent toggles live here as well as in onboarding, with the date you granted them — revoking one takes effect on the next query, not eventually.</li>
+          <li><i>3</i>The encryption block states plainly what is used. A person storing their medical record deserves to read the actual algorithm rather than a padlock icon.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <!-- F4 AUDIT + EXPORT -->
+    <figure class="art">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span><span class="bat"></span></div>
+        <div class="hd"><div><div class="t">Access log</div><div class="sub">Every read &amp; write · 90 days</div></div>
+          <div class="act"><span class="icobtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span></div></div>
+        <div class="body scrollfade" style="gap:10px">
+          <div class="timeline">
+            <div class="tev"><div class="d">Today · 09:38</div><b>Nadi read 4 series</b><small>glucose, sleep, nutrition, adherence · your question</small></div>
+            <div class="tev"><div class="d">Today · 06:48</div><b>Reading written</b><small>Fasting glucose 112 · iPhone 15</small></div>
+            <div class="tev"><div class="d">Today · 06:04</div><b>Apollo FHIR sync</b><small>2 new lab results · automated</small></div>
+            <div class="tev mut"><div class="d">Yesterday · 21:12</div><b>Share link opened</b><small>Visit-prep · Dr. Krishnan · 1st of 1 view</small></div>
+            <div class="tev"><div class="d">24 Aug · 08:02</div><b>Sign-in · MacBook Pro</b><small>Chennai · 2FA passed</small></div>
+            <div class="tev mut"><div class="d">22 Aug · 19:40</div><b>Failed sign-in attempt</b><small>Unknown device · blocked, you were emailed</small></div>
+          </div>
+
+          <div class="sectitle">Your data</div>
+          <div class="card" style="padding:2px 13px">
+            <div class="row"><span class="ic j"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v3h16v-3"/></svg></span><div class="tx"><b>Export everything</b><small>JSON, FHIR R4 bundle, or PDF summary</small></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="m9 9 6 6M15 9l-6 6"/></svg></span><div class="tx"><b>Active share links</b><small>1 active · expires in 6 days</small></div><span class="btn sm ghost" style="height:26px;font-size:10.5px">Revoke</span></div>
+          </div>
+
+          <div class="card" style="border-color:var(--high)">
+            <div class="ct"><span style="color:var(--high)">Permanent</span></div>
+            <div style="font-family:var(--f-display);font-weight:700;font-size:14.5px;margin-top:5px">Delete your record</div>
+            <div class="cb" style="margin-top:4px">Erases every observation, document, conversation and connection within 24 hours. The audit log is retained for 30 days, then destroyed. Nothing is recoverable.</div>
+            <div class="btn ghost" style="height:36px;font-size:12.5px;margin-top:10px;color:var(--high);border-color:var(--high)">Delete everything</div>
+          </div>
+        </div>
+      </div></div>
+      <figcaption>
+        <div class="code">F4</div><div class="name">Access log, export &amp; erase</div>
+        <ul class="callouts">
+          <li><i>1</i>The audit log is append-only and written in the same transaction as the action it records, so it cannot drift from what actually happened.</li>
+          <li><i>2</i>Export produces a real FHIR R4 bundle, not a proprietary dump — the record is portable by construction, which is the whole argument against a walled garden.</li>
+          <li><i>3</i>Deletion is genuine and irreversible, and the screen says exactly what survives and for how long rather than hiding it in a policy document.</li>
+        </ul>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════ 4 · SECURITY ══════════════════════════ -->
+<section class="sec" id="security">
+  <div class="eyebrow">04 — Security model</div>
+  <div class="prose">
+    <h2>Built for a record you would actually put your own labs into</h2>
+    <p class="lede">This app holds a complete medical history for one person — you. That makes it a higher-value target than most consumer software and it deserves the controls below, all of which are in scope for the build rather than "phase two".</p>
+  </div>
+
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th style="width:23%">Layer</th><th style="width:38%">What is implemented</th><th>Why it is there</th></tr></thead>
+      <tbody>
+        <tr><td><b>Identity</b></td><td>Argon2id passphrase hashing (64 MB, t=3), mandatory TOTP second factor, ten single-use recovery codes, breached-password rejection at set time.</td><td>Passphrase alone is one stolen credential away from your entire history.</td></tr>
+        <tr><td><b>Sessions</b></td><td>Opaque server-side sessions in <code>httpOnly · Secure · SameSite=Strict</code> cookies, rotated on privilege change, 30-day absolute lifetime, per-device revocation, idle app-lock at 2 minutes.</td><td>Stateless JWTs cannot be revoked; a stolen laptop should not mean a permanent session.</td></tr>
+        <tr><td><b>Encryption at rest</b></td><td>Per-user data key, AES-256-GCM on every health field and every uploaded file. The data key is wrapped by a key derived from your passphrase and by a KMS-held master key.</td><td>A database dump on its own yields ciphertext. Column-level, not just disk-level.</td></tr>
+        <tr><td><b>Encryption in transit</b></td><td>TLS 1.3 only, HSTS preload, strict CSP with nonces, <code>Referrer-Policy: no-referrer</code>, no third-party scripts or analytics on any authenticated page.</td><td>Third-party tags are the most common way health data leaks from health apps.</td></tr>
+        <tr><td><b>Model boundary</b></td><td>De-identification before every Claude call — name, email, address, phone, MRN and record IDs stripped and replaced with a coarse subject descriptor. Zero-retention API settings. No training on your data, ever.</td><td>The model needs your values, not your identity, to be useful.</td></tr>
+        <tr><td><b>Prompt-injection defence</b></td><td>Uploaded document text and clinical notes are wrapped as untrusted data with explicit instructions never to follow directives inside them; tool calls are allow-listed and scoped to your user id server-side; every tool result is schema-validated.</td><td>A PDF is attacker-controlled input the moment someone else generated it.</td></tr>
+        <tr><td><b>Authorisation</b></td><td>Every query carries the session's user id at the data-access layer — enforced in the query builder, not in route handlers — plus row-level policies in the database as a second, independent gate.</td><td>The classic health-app breach is an ID in a URL that nobody checked.</td></tr>
+        <tr><td><b>Audit</b></td><td>Append-only log of every read and write of health data, written in the same transaction as the action, surfaced to you in full at F4.</td><td>An audit log you cannot read is a log that protects the vendor, not you.</td></tr>
+        <tr><td><b>Sharing</b></td><td>Signed, expiring, single-purpose, revocable links; every open recorded. No public URLs, ever.</td><td>Sharing is the only outbound path, so it is the one that must be airtight.</td></tr>
+        <tr><td><b>Rate &amp; abuse</b></td><td>Per-account and per-IP limits on auth, uploads and model calls; exponential backoff and lockout; upload type/size validation with content sniffing; documents processed in an isolated worker.</td><td>Also caps what a stolen session can cost you in API spend.</td></tr>
+        <tr><td><b>Operational</b></td><td>Secrets from environment only, never in the repository; no PHI in application logs or error reports; dependency and secret scanning in CI; encrypted, restorable backups.</td><td>Most real incidents are operational, not cryptographic.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="panel" style="border-color:var(--turmeric)">
+      <span class="kicker">Stated plainly</span>
+      <h3>What this is not</h3>
+      <p>Aayu is a personal tool for one person's own record. It is not a HIPAA-covered entity, not a medical device, and not a diagnostic system. It does not dose, diagnose, or triage emergencies, and every screen that touches clinical judgement says so. If it ever holds someone else's data, a compliance programme — BAAs, formal risk assessment, breach process — comes before that, not after.</p>
+    </div>
+    <div class="panel">
+      <span class="kicker">Design consequence</span>
+      <h3>Deterministic decides, the model explains</h3>
+      <p>Out-of-range flags, screening due-dates, interaction warnings and adherence maths are computed in code from a rules table. Claude reads your record, explains it, extracts from documents and answers questions — it never decides what counts as abnormal. This is what makes the answers reproducible and the mistakes findable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ 5 · ARCHITECTURE ══════════════════════════ -->
+<section class="sec" id="architecture">
+  <div class="eyebrow">05 — How it is built</div>
+  <div class="prose">
+    <h2>One record, five tools, no magic</h2>
+    <p class="lede">The technical shape follows from the design: a normalised observation store that every source writes into, a small set of typed tools that read from it, and Claude sitting on top of those tools with no direct database access at all.</p>
+  </div>
+
+  <div class="grid g3" style="margin-top:26px">
+    <div class="panel"><span class="kicker">Client</span><h3>Next.js 15 · React · TypeScript</h3><p>App Router, server components, installable as a PWA so it behaves like an app on your phone without an app-store round trip. Tailwind carrying the token system defined in section 01.</p></div>
+    <div class="panel"><span class="kicker">Data</span><h3>Postgres · Prisma</h3><p>One <code>observations</code> table for every measured value regardless of source, plus documents, medications, conditions, care rules, sessions and the audit log. Row-level security as the second authorisation gate.</p></div>
+    <div class="panel"><span class="kicker">Intelligence</span><h3>Claude · Opus 5</h3><p>Streaming chat with tool use for grounded answers; vision for document and device-display extraction; structured JSON output validated against Zod schemas before anything is written.</p></div>
+  </div>
+
+  <div class="prose" style="margin-top:44px"><h3>The five tools Nadi can call</h3>
+  <p style="font-size:15px;color:var(--txt-2);margin-top:8px">Each is scoped to your user id on the server, filtered by your consent categories, and returns rows that become citations in the answer.</p></div>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th style="width:22%">Tool</th><th style="width:34%">Arguments</th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr><td><code>get_profile</code></td><td>—</td><td>Age, sex, conditions, allergies, active medications, goals, family history</td></tr>
+        <tr><td><code>get_labs</code></td><td><code>markers[]</code>, <code>from</code>, <code>to</code>, <code>limit</code></td><td>Lab results with value, unit, reference range, lab, collection date</td></tr>
+        <tr><td><code>get_series</code></td><td><code>metric</code>, <code>from</code>, <code>to</code>, <code>aggregate</code></td><td>Time series with computed mean, trend and in-range percentage</td></tr>
+        <tr><td><code>get_medications</code></td><td><code>active</code>, <code>window</code></td><td>Schedule, dose history, adherence rate, refill projection</td></tr>
+        <tr><td><code>search_documents</code></td><td><code>query</code>, <code>from</code>, <code>to</code></td><td>Matching passages with document, page and extraction provenance</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose" style="margin-top:44px"><h3>Where Claude is used, and where it is deliberately not</h3></div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="panel">
+      <span class="kicker">Model does this</span>
+      <ul class="tick">
+        <li><b>Grounded chat</b> — answers assembled from tool results, every claim cited</li>
+        <li><b>Document extraction</b> — lab PDFs, photos, discharge notes, device displays → validated JSON with confidence and source text</li>
+        <li><b>The morning read</b> — one daily synthesis of what changed and what it lines up with</li>
+        <li><b>Visit-prep drafting</b> — turning an interval of the record into questions worth asking</li>
+        <li><b>Plain language</b> — explaining a marker, a rule, or a trend at the reading level you ask for</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <span class="kicker">Code does this</span>
+      <ul class="tick">
+        <li><b>Range flags</b> — reference intervals and condition-adjusted targets</li>
+        <li><b>Care gaps</b> — a rules table with guideline source, population, interval and the query that satisfies it</li>
+        <li><b>Interactions &amp; allergies</b> — coded lookup on every medication change</li>
+        <li><b>Statistics</b> — averages, trends, in-range percentages, adherence</li>
+        <li><b>Deduplication</b> — the same result from two sources becomes one row with two provenances</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ 6 · BUILD ══════════════════════════ -->
+<section class="sec" id="build">
+  <div class="eyebrow">06 — Build sequence</div>
+  <div class="prose">
+    <h2>What gets built, in what order</h2>
+    <p class="lede">Six stages, each ending at something you can actually use. Stage 3 is the first point where the app is genuinely useful for managing your own health; everything after deepens it.</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th style="width:8%">Stage</th><th style="width:26%">Delivers</th><th style="width:34%">Screens</th><th>Done when</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td>Foundation &amp; security</td><td>A1 – A4</td><td>You can create an account, enrol 2FA, save a recovery kit, and the record is encrypted at rest.</td></tr>
+        <tr><td><b>2</b></td><td>The record &amp; profile</td><td>B1 – B4, F2, C3, C4</td><td>Your profile, conditions, medications and manual readings are in, and the timeline shows them.</td></tr>
+        <tr><td><b>3</b></td><td>Ingestion</td><td>E1 – E4</td><td>You can photograph a lab report, confirm the markers, and see them on a trend line.</td></tr>
+        <tr><td><b>4</b></td><td>Nadi</td><td>D1, D2, C1</td><td>Grounded chat with citations, the grounding drawer, and the morning read on the dashboard.</td></tr>
+        <tr><td><b>5</b></td><td>Care &amp; medications</td><td>C2, C5, F1, D3</td><td>Care-gap rules engine, adherence, interaction checks, visit-prep report and sharing.</td></tr>
+        <tr><td><b>6</b></td><td>Hardening &amp; deploy</td><td>F3, F4</td><td>Security centre, audit log, export and erase; deployed, on your phone, with your real data in it.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="decide">
+    <h3>Four decisions before the build starts</h3>
+    <p>Everything above is specified enough to build from. These four change the shape of it, so they are yours to make.</p>
+    <ol>
+      <li><b>Brand.</b> Aayu / Nadi as presented, or a different name and palette — this is the one thing that is expensive to change late.</li>
+      <li><b>Where it runs.</b> Hosted, so it is on your phone from anywhere, or local-only on a machine you own, so the record never leaves your house.</li>
+      <li><b>Scope of the first build.</b> All six stages, or stages 1–4 first so you have something in your hands sooner.</li>
+      <li><b>Real data.</b> Whether the first version should ingest your actual labs and records, or run on realistic sample data until you have decided you trust it.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    <p class="fine">
+      Aayu — personal health intelligence · UI/UX specification v1 · 26 August 2026<br>
+      24 screens across 6 flows · brand, palette and type system defined in section 01 · security model in section 04<br>
+      Sample values shown throughout are illustrative and are not medical information. Aayu is a personal tool, not a medical device, and does not provide diagnosis or treatment advice.
+    </p>
+  </div>
+</footer>
+
+</div>

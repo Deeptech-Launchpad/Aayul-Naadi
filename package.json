@@ -1,0 +1,46 @@
+{
+  "name": "aayu",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "seed": "tsx --conditions=react-server scripts/seed.ts",
+    "demo": "tsx --conditions=react-server scripts/demo.ts",
+    "wipe": "tsx --conditions=react-server scripts/wipe.ts",
+    "test:e2e": "node tests/e2e.mjs",
+    "test:nadi": "tsx --conditions=react-server tests/nadi-loop.ts",
+    "test:record": "tsx --conditions=react-server tests/record.ts",
+    "test": "npm run typecheck && npm run test:record && npm run test:nadi",
+    "start:standalone": "sh scripts/standalone.sh",
+    "users": "tsx --conditions=react-server scripts/users.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.120.0",
+    "@node-rs/argon2": "^2.1.0",
+    "@prisma/client": "^6.12.0",
+    "next": "^16.3.2",
+    "otpauth": "^9.5.1",
+    "qrcode": "^1.5.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^22.10.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
+    "prisma": "^6.12.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.7.0"
+  }
+}

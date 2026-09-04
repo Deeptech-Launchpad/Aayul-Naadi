@@ -1,0 +1,104 @@
+# Aayu — self-hosted on a VPS.
+#
+# Two deployment modes. Run `sh scripts/preflight.sh` on the server first; it
+# tells you which one you need.
+#
+#   A box where nothing owns ports 80/443 — Aayu brings its own TLS:
+#
+#       docker compose --profile tls up -d --build
+#
+#   A box already serving other sites — Aayu publishes to localhost only and
+#   your existing nginx/Caddy/Apache proxies to it. No Caddy is started and
+#   ports 80/443 are never touched:
+#
+#       docker compose -f docker-compose.yml -f docker-compose.proxied.yml up -d --build
+#
+# In both modes Postgres is reachable only on the internal network.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER:?set POSTGRES_USER in .env}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env — generate one with openssl rand -base64 24}"
+      POSTGRES_DB: "${POSTGRES_DB:?set POSTGRES_DB in .env}"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [aayu]
+
+  # Applies the schema, then exits. The app waits for it to finish.
+  migrate:
+    build:
+      context: .
+      target: migrator
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+    networks: [aayu]
+
+  app:
+    build:
+      context: .
+      target: runner
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      AAYU_MASTER_KEY: "${AAYU_MASTER_KEY:?set AAYU_MASTER_KEY in .env — generate one with openssl rand -base64 32, and back it up off this server}"
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      ANTHROPIC_WORKSPACE_ID: "${ANTHROPIC_WORKSPACE_ID:-}"
+      AAYU_MODEL: ${AAYU_MODEL:-claude-opus-5}
+      AAYU_SIGNUP_MODE: "${AAYU_SIGNUP_MODE:-open}"
+      AAYU_INVITE_CODE: "${AAYU_INVITE_CODE:-}"
+      AAYU_ALLOWED_EMAILS: "${AAYU_ALLOWED_EMAILS:-}"
+      AAYU_DEMO_EMAIL: "${AAYU_DEMO_EMAIL:-}"
+      AAYU_ORIGIN: "${AAYU_ORIGIN:?set AAYU_ORIGIN in .env to the public URL such as https://health.example.com — share links are built from it}"
+      AAYU_DATA_DIR: /data/uploads
+      NODE_ENV: production
+    volumes:
+      - uploads:/data/uploads
+    networks: [aayu]
+
+  # Only started by `--profile tls`. On a shared box the existing proxy does
+  # this job, and starting a second thing that wants port 80 would take your
+  # other sites offline.
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["tls"]
+    restart: unless-stopped
+    depends_on: [app]
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      # Only read by the tls profile; harmless and unused in proxied mode.
+      AAYU_DOMAIN: "${AAYU_DOMAIN:-}"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks: [aayu]
+
+volumes:
+  db-data:
+  uploads:
+  caddy-data:
+  caddy-config:
+
+networks:
+  aayu:
+    driver: bridge
