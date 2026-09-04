@@ -68,6 +68,9 @@ services:
       AAYU_ORIGIN: "${AAYU_ORIGIN:?set AAYU_ORIGIN in .env to the public URL such as https://health.example.com — share links are built from it}"
       AAYU_DATA_DIR: /data/uploads
       NODE_ENV: production
+      # Only 1 on a trusted LAN without TLS — see .env.example. Defaulting to 0
+      # keeps the session cookie's Secure flag on unless deliberately opted out.
+      AAYU_INSECURE_COOKIES: "${AAYU_INSECURE_COOKIES:-0}"
     volumes:
       - uploads:/data/uploads
     networks: [aayu]
