@@ -5,6 +5,134 @@ install on the host is Docker itself.
 
 ---
 
+## Requirements
+
+### The VPS instance
+
+Any Hostinger **KVM** plan works — they all give dedicated vCPU, RAM and NVMe
+with full root access, which is everything this needs. Shared web hosting and
+Cloud Startup plans do **not**: there is no root and no Docker, so they cannot
+run Aayu at all.
+
+Sizes below are the published specifications at the time of writing; confirm the
+current ones in hPanel before ordering.
+
+| Plan | vCPU | RAM | NVMe | For Aayu |
+| --- | --- | --- | --- | --- |
+| KVM 1 | 1 | 4 GB | 50 GB | **The recommended choice.** One household, Aayu alone on the box. The only slow part is the first `docker compose build` — five to ten minutes on a single core. |
+| KVM 2 | 2 | 8 GB | 100 GB | Pick this if the server also serves other sites, or if you will import large Apple Health exports. Halves the build time. |
+| KVM 4 / KVM 8 | 4 / 8 | 16 / 32 GB | 200 / 400 GB | More than this workload uses. Only worth it for a box already carrying other applications. |
+
+The hard floor is **2 GB RAM and roughly 15 GB free disk**. Below 2 GB the
+`next build` step is OOM-killed and the deploy fails halfway; add swap first —
+see [The build runs out of memory](#troubleshooting). The steady-state app is
+far lighter than the build: check yours with `docker stats` once it is up.
+
+Disk is dominated by the Docker images and build cache, not by your record.
+Budget around 8 GB for images and volumes after the first build, and prune
+between updates with `docker image prune -f`.
+
+### Operating system
+
+- **Ubuntu 24.04 LTS, 64-bit** — what this is tested on. Ubuntu 22.04 LTS and
+  Debian 12 also work.
+- x86_64. Hostinger's KVM plans are x86_64; the images are multi-arch but ARM is
+  untested here.
+- Hostinger offers an **Ubuntu with Docker** OS template. Choosing it means
+  Docker and the Compose plugin are already installed and you can skip that part
+  of [step 2](#2-prepare-the-vps).
+- Do **not** pick a control-panel template — CyberPanel, CloudPanel, Plesk,
+  Coolify, or anything that installs its own web server — unless you actually
+  want it. Those own ports 80 and 443 from first boot, which forces the proxied
+  mode below. A plain OS template is simpler.
+
+### Software on the host
+
+Only two things, and the Docker template supplies both:
+
+| Requirement | Check with | If missing |
+| --- | --- | --- |
+| Docker Engine 24+ | `docker --version` | `curl -fsSL https://get.docker.com \| sh` |
+| Compose v2 plugin | `docker compose version` | Comes with the installer above. Legacy `docker-compose` v1 is not supported — the compose files use v2 syntax. |
+
+`git`, `curl` and `openssl` are on every Ubuntu image already. `iproute2` (for
+`ss`) is worth having so `scripts/preflight.sh` can see what is listening —
+without it preflight reports ports as *UNKNOWN* rather than guessing.
+
+Node, Postgres and nginx are **not** installed on the host. They run in
+containers, which is why the host stays this bare.
+
+### Network and ports
+
+| Direction | Port | Why |
+| --- | --- | --- |
+| Inbound | 22/tcp | SSH. Restrict it to your own IP if you can. |
+| Inbound | 80/tcp | Let's Encrypt HTTP-01 validation, and the redirect to HTTPS. Required even though no content is served on it. |
+| Inbound | 443/tcp + udp | The site. UDP carries HTTP/3 when Caddy terminates TLS. |
+| Outbound | 443/tcp | `api.anthropic.com`, Let's Encrypt, Docker Hub, and the distro's apt mirrors. |
+
+> **Hostinger's firewall is separate from `ufw`.** hPanel → VPS → *Firewall*
+> filters packets before they reach the operating system. If you enable a
+> firewall there, 22, 80 and 443 have to be allowed **in hPanel as well** — with
+> the wrong rules there, Let's Encrypt fails and the site is unreachable while
+> `ufw status` on the box looks perfectly correct. If you leave the hPanel
+> firewall off, the `ufw` rules in [step 2](#2-prepare-the-vps) are the only
+> ones in play.
+
+Nothing else is ever exposed: Postgres publishes no port, and in proxied mode
+the app publishes only to `127.0.0.1`. See [What is exposed](#what-is-exposed).
+
+### Domain and DNS
+
+- A domain or subdomain you control, with an `A` record pointing at the VPS
+  IPv4 address. Let's Encrypt cannot issue a certificate before it resolves.
+- If the domain is registered with Hostinger, edit it in hPanel → *Domains* →
+  *DNS Zone*. Otherwise use whichever registrar holds it.
+- Add an `AAAA` record only if you intend to serve IPv6 — and if you do, mind the
+  `listen [::]:80` trap under [Certificate](#3-certificate).
+- If you put Cloudflare in front, keep the record **DNS-only** (grey cloud)
+  until the certificate has been issued. A proxied record can fail HTTP-01
+  validation, and a Cloudflare-terminated connection also changes what
+  `X-Forwarded-Proto` means to the app.
+
+### Accounts and keys
+
+- **SSH key pair.** Add the public key in hPanel before first boot and sign in
+  with it rather than the root password.
+- **`AAYU_MASTER_KEY`**, generated in [step 3](#3-clone-and-configure) and
+  backed up somewhere that is not this server. Every health field and every
+  uploaded file is encrypted under it.
+- **An Anthropic API key** from [console.anthropic.com](https://console.anthropic.com).
+  Optional — without it everything works except Nadi, document reading and the
+  morning read.
+
+---
+
+## Provisioning the VPS in hPanel
+
+1. **Order the plan.** hPanel → *VPS* → choose KVM 1 (or larger, per the table
+   above) and a datacentre near the people who will use it — latency on a
+   streaming chat is noticeable.
+2. **Choose the OS.** Ubuntu 24.04 LTS, or the *Ubuntu 24.04 with Docker*
+   template if you would rather not install Docker yourself. Avoid the
+   control-panel templates.
+3. **Add your SSH key** during setup, or afterwards under hPanel → *VPS* →
+   *SSH keys*, and disable password login once it works.
+4. **Note the IPv4 address**, then create the `A` record for your subdomain and
+   wait for it to resolve.
+5. **Set the hPanel firewall**, if you enable one at all: allow 22, 80 and 443.
+6. **Take a snapshot** once the first deploy succeeds — hPanel → *VPS* →
+   *Snapshots & backups*. Treat it as sensitive: a snapshot contains `.env`, so
+   it holds both the encrypted record *and* the key that opens it. It is not a
+   substitute for the off-server copy of `AAYU_MASTER_KEY`, nor for the
+   [database backups](#backups) below.
+7. **SSH in** and continue at [step 1](#1-point-the-domain-at-the-vps).
+
+`sh scripts/preflight.sh` checks most of the above against the running box and
+tells you which deployment mode applies. It changes nothing.
+
+---
+
 ## Which mode you need
 
 Run this on the server first. It changes nothing — it reads what is already
@@ -24,13 +152,6 @@ one** — jump to [Sharing a server with other apps](#sharing-a-server-with-othe
 The first mode starts a Caddy that wants port 80, and on a box where something
 else already has it, that either fails to start or takes your other sites
 offline.
-
-## Before you start
-
-- A VPS with at least **2 GB RAM** (the build needs it; the running app is happy in less)
-- A domain or subdomain you control
-- An Anthropic API key from [console.anthropic.com](https://console.anthropic.com) — optional,
-  but without it you lose Nadi, document reading and the morning read
 
 ---
 
@@ -52,6 +173,10 @@ dig +short health.yourdomain.com
 
 ## 2. Prepare the VPS
 
+If you provisioned from the *Ubuntu with Docker* template, Docker is already
+installed — `docker compose version` confirms it — and you can skip the first
+line below.
+
 SSH in as root, then:
 
 ```bash
@@ -70,6 +195,11 @@ ufw allow 443/tcp
 ufw --force enable
 ```
 
+If you enabled the firewall in hPanel → *VPS* → *Firewall* as well, allow the
+same three ports there. It filters ahead of `ufw`, so a port missing at that
+level is invisible from inside the box — the symptom is a certificate that
+never issues and a site that never answers, with `ufw status` looking correct.
+
 Postgres is never exposed — it is reachable only on the Docker network.
 
 ---
@@ -78,7 +208,7 @@ Postgres is never exposed — it is reachable only on the Docker network.
 
 ```bash
 su - aayu
-git clone https://github.com/vellayan-code/Personal-Health-App.git aayu
+git clone https://github.com/Deeptech-Launchpad/Aayul-Naadi.git aayu
 cd aayu
 cp .env.example .env
 ```
@@ -129,10 +259,16 @@ chmod 600 .env
 
 ## 4. Start
 
+The `tls` profile is what starts Caddy. Without it you get the database and the
+app but nothing published, and the site never answers:
+
 ```bash
-docker compose up -d --build
+docker compose --profile tls up -d --build
 docker compose logs -f app
 ```
+
+On a box that already serves other sites, use the proxied command from
+[Sharing a server with other apps](#sharing-a-server-with-other-apps) instead.
 
 The first build takes a few minutes. You want to see:
 

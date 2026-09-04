@@ -45,6 +45,94 @@ if have free; then
 fi
 echo "disk (/)  : $(df -h / | awk 'NR==2 {printf "%s free of %s", $4, $2}')"
 
+say "Requirements"
+# Checked against docs/DEPLOYMENT.md#requirements. Read only, like the rest.
+req_fail=0
+req_warn=0
+req() {
+  case "$2" in
+    ok)   printf '  ✓ %-11s %s\n' "$1" "$3" ;;
+    warn) printf '  ! %-11s %s\n' "$1" "$3"; req_warn=$((req_warn + 1)) ;;
+    *)    printf '  ✗ %-11s %s\n' "$1" "$3"; req_fail=$((req_fail + 1)) ;;
+  esac
+}
+
+case "$(uname -m)" in
+  x86_64|amd64)  req "arch" ok "$(uname -m)" ;;
+  aarch64|arm64) req "arch" warn "$(uname -m) — the images are multi-arch but ARM is untested here" ;;
+  *)             req "arch" fail "$(uname -m) — not a supported architecture" ;;
+esac
+
+cpus=$(nproc 2>/dev/null || echo 0)
+if [ "$cpus" -ge 2 ]; then
+  req "cpu" ok "$cpus cores"
+elif [ "$cpus" -ge 1 ]; then
+  req "cpu" warn "$cpus core — runs fine; expect 5–10 minutes for the first build"
+else
+  req "cpu" warn "could not determine the core count"
+fi
+
+if have free; then
+  mem_mb=$(free -m | awk '/^Mem:/ {print $2}')
+  swap_mb=$(free -m | awk '/^Swap:/ {print $2}')
+  [ -n "$mem_mb" ] || mem_mb=0
+  [ -n "$swap_mb" ] || swap_mb=0
+  if [ "$mem_mb" -ge 3800 ]; then
+    req "memory" ok "${mem_mb} MB — KVM 1 or larger"
+  elif [ "$mem_mb" -ge 1900 ]; then
+    req "memory" warn "${mem_mb} MB — meets the 2 GB floor, but the build is tight; add swap if it is killed"
+  elif [ $((mem_mb + swap_mb)) -ge 1900 ]; then
+    req "memory" warn "${mem_mb} MB RAM + ${swap_mb} MB swap — the build will be slow but should finish"
+  else
+    req "memory" fail "${mem_mb} MB RAM, ${swap_mb} MB swap — under the 2 GB floor; 'next build' will be OOM-killed. Add swap first."
+  fi
+else
+  req "memory" warn "no 'free' on this host — could not check"
+fi
+
+disk_gb=$(df -Pk / 2>/dev/null | awk 'NR==2 {printf "%d", $4 / 1048576}')
+if [ -z "$disk_gb" ]; then
+  req "disk" warn "could not read free space on /"
+elif [ "$disk_gb" -ge 20 ]; then
+  req "disk" ok "${disk_gb} GB free on /"
+elif [ "$disk_gb" -ge 15 ]; then
+  req "disk" warn "${disk_gb} GB free on / — enough to deploy, little room for image churn"
+else
+  req "disk" fail "${disk_gb} GB free on / — images, volumes and build cache want roughly 15 GB"
+fi
+
+if have docker; then
+  req "docker" ok "$(docker --version 2>/dev/null | sed 's/^Docker version /version /')"
+  if docker compose version >/dev/null 2>&1; then
+    req "compose" ok "v2 plugin, $(docker compose version --short 2>/dev/null)"
+  elif have docker-compose; then
+    req "compose" fail "only the legacy v1 'docker-compose' is here; the compose files need the v2 plugin"
+  else
+    req "compose" fail "not installed — it ships with the Docker installer"
+  fi
+else
+  req "docker" fail "not installed  →  curl -fsSL https://get.docker.com | sh"
+  req "compose" fail "not installed — it ships with the Docker installer"
+fi
+
+for tool in git openssl curl; do
+  if have "$tool"; then req "$tool" ok "present"; else req "$tool" fail "not installed"; fi
+done
+
+if have ss || have netstat; then
+  req "iproute2" ok "present"
+else
+  req "iproute2" warn "no ss or netstat — the port checks below fall back to /proc and may be inconclusive"
+fi
+
+if [ "$req_fail" -gt 0 ]; then
+  echo "  → $req_fail requirement(s) unmet. docs/DEPLOYMENT.md#requirements has the fix for each."
+elif [ "$req_warn" -gt 0 ]; then
+  echo "  → Deployable. $req_warn thing(s) above are worth reading first."
+else
+  echo "  → All requirements met."
+fi
+
 say "Docker"
 if have docker; then
   echo "docker    : $(docker --version 2>/dev/null)"

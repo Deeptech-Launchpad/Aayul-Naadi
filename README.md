@@ -35,6 +35,20 @@ Two documents worth opening before the code:
 
 Tested against Docker on a Hostinger VPS. Anything with Docker and a domain works.
 
+### 0. What you need
+
+| | |
+| --- | --- |
+| **VPS** | A Hostinger **KVM 1** (1 vCPU, 4 GB RAM, 50 GB NVMe) or larger. KVM 2 if the box also serves other sites. Shared hosting cannot run this — Docker needs root. Hard floor: 2 GB RAM and ~15 GB free disk, below which `next build` is OOM-killed. |
+| **OS** | Ubuntu 24.04 LTS, x86_64 — or Hostinger's *Ubuntu with Docker* template, which saves installing it. Avoid control-panel templates; they take ports 80/443. |
+| **Software** | Docker Engine 24+ and the Compose **v2** plugin. That is all — Node, Postgres and Caddy run in containers, never on the host. |
+| **Ports** | Inbound 22, 80, 443 (443/udp too, for HTTP/3). Outbound 443. If you enable the firewall in hPanel, allow them **there as well** — it filters ahead of `ufw`, and a missing rule there is invisible from inside the box. |
+| **Domain** | A subdomain with an `A` record on the VPS IPv4. Let's Encrypt cannot issue before it resolves. |
+| **Keys** | An `AAYU_MASTER_KEY` you back up off the server, and optionally an Anthropic API key. |
+
+Plan sizing, hPanel provisioning and the full checklist are in
+[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md#requirements).
+
 ### 1. Point a domain at the box
 
 Create an `A` record for e.g. `health.yourdomain.com` pointing at the VPS IP.
@@ -43,7 +57,7 @@ Let's Encrypt cannot issue a certificate until this resolves.
 ### 2. Clone and configure
 
 ```bash
-git clone https://github.com/vellayan-code/Personal-Health-App.git aayu
+git clone https://github.com/Deeptech-Launchpad/Aayul-Naadi.git aayu
 cd aayu
 cp .env.example .env
 ```
